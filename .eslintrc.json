@@ -1,14 +1,14 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "extends": [    
+  "extends": [
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:import/typescript"    
+    "plugin:import/typescript"
   ],
   "env": {
     "browser": true,
@@ -32,19 +32,16 @@
     }
   },
   "rules": {
-    "@typescript-eslint/explicit-module-boundary-types": [
-      "off"
-    ],
-    "@typescript-eslint/ban-ts-comment": [
-      "off"
-    ],
-    "react/react-in-jsx-scope": [
-      "off"
-    ],
+    "@typescript-eslint/explicit-module-boundary-types": ["off"],
+    "react/react-in-jsx-scope": ["off"],
     "react/prop-types": "off",
     "jsx-a11y/anchor-is-valid": "off", // This rule is not compatible with Next.js's <Link /> components    
     "@typescript-eslint/no-unused-vars": [
-      "off"
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
     ],
     "prettier/prettier": [
       "error",
@@ -52,12 +49,10 @@
       {
         "usePrettierrc": true
       }
-    ],    
+    ],
     "react/display-name": "off",
     "react/no-unescaped-entities": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": ["warn"]
   },
-  "plugins": [
-    "prettier"
-  ]
+  "plugins": ["prettier"]
 }
