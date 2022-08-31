@@ -3,3 +3,10 @@ node_modules
 yarn.lock
 package-lock.json
 public
+coverage
+docker-compose.yml
+Dockerfile
+package*
+tsconfig.json
+.prettierrc
+.github
