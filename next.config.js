@@ -6,5 +6,10 @@ module.exports = {
     // are omitting this to be ran by next
     ignoreDuringBuilds: true,
   },
-  swcMinify: true,
+  images: {
+    domains: [
+      'remodelmate-v2-local.s3.us-east-2.amazonaws.com',
+      'remodelmate-contractor-app.s3.amazonaws.com',
+    ],
+  },
 }

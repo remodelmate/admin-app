@@ -18,3 +18,12 @@ yarn-debug.log*
 yarn-error.log*
 
 coverage
+
+# vercel
+.vercel
+
+# tsconfig
+tsconfig.tsbuildinfo
+
+# vscode
+.vscode
