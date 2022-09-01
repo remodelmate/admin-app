@@ -35,7 +35,7 @@
     "@typescript-eslint/explicit-module-boundary-types": ["off"],
     "react/react-in-jsx-scope": ["off"],
     "react/prop-types": "off",
-    "jsx-a11y/anchor-is-valid": "off", // This rule is not compatible with Next.js's <Link /> components    
+    "jsx-a11y/anchor-is-valid": "off", // This rule is not compatible with Next.js's <Link /> components
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
