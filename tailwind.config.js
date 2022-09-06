@@ -1,10 +1,12 @@
+/** @type {import('tailwindcss').Config} */
+
 // eslint-disable-next-line
 const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   options: {
     safelist: [/data-theme$/],
@@ -30,9 +32,6 @@ module.exports = {
         rose: colors.rose,
       },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [require('@tailwindcss/forms'), require('daisyui')],
   important: true,
