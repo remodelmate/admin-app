@@ -26,6 +26,9 @@
       "@utils/*": [
         "utils/*"
       ],
+      "@hooks/*": [
+        "hooks/*"
+      ]
     },
     "incremental": true
   },
@@ -36,6 +39,7 @@
   ],
   "include": [
     "next-env.d.ts",
+    "custom.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.js"
