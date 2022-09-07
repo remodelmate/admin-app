@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* https://stackoverflow.com/questions/51905803/next-js-how-to-change-css-of-root-div-next-on-specific-page */
+
+@layer components {
+  #__next {
+    @apply h-full;
+  }
+  html,
+  body {
+    @apply h-full;
+  }
+}

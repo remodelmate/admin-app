@@ -1,9 +1,32 @@
+import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
+import { ReactElement, ReactNode, useState } from 'react'
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 
 import '../styles/globals.css'
 
-function MyApp({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
+  P,
+  IP
+> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: { queries: { refetchOnWindowFocus: false } },
+      })
+  )
+
+  const getLayout = Component.getLayout ?? (page => page)
+
   return (
     <>
       <Head>
@@ -12,10 +35,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
 
-        <title>{`Next starter template`}</title>
+        <title>{`remodelmate - Admin App`}</title>
       </Head>
 
-      <Component {...pageProps} />
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          {getLayout(<Component {...pageProps} />)}
+        </Hydrate>
+      </QueryClientProvider>
     </>
   )
 }
