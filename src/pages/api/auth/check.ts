@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequestWithEmail, res: NextApiResponse) => {
     try {
       const user = await User.findOne({ email }).lean()
 
-      if (user) {
+      if (user && user.userType === 'admin') {
         res.status(200).json({ success: true })
       } else {
         res.status(400).json({ success: false })
