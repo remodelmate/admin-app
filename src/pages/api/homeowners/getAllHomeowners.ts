@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const filter = {}
-    const homeowners = await Homeowner.find(filter)
+    const homeowners = await Homeowner.find(filter).sort({ dateCreated: -1 })
 
     res.status(200).json({ ...homeowners })
   } catch (error) {

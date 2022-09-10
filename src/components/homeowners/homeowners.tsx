@@ -12,5 +12,5 @@ export const Homeowners: FunctionComponent<HomeownersProps> = ({
 }
 
 interface HomeownersProps {
-  homeowners: any
+  homeowners: Homeowner
 }
