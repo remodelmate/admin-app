@@ -10,6 +10,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const didToken = req.headers.authorization.substr(7)
 
+  const page = Number(req.query.page) || 1
+  const pageSize = 20
+
   try {
     magic.token.validate(didToken)
     const metadata = await magic.users.getMetadataByToken(didToken)
@@ -20,10 +23,27 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(500).send({ message: 'No email address from metadata' })
     }
 
-    const filter = {}
-    const homeowners = await Homeowner.find(filter).sort({ dateCreated: -1 })
+    const homeownersCountPromise = Homeowner.estimatedDocumentCount({})
 
-    res.status(200).json({ ...homeowners })
+    const homeownersPromise = Homeowner.find({})
+      .sort({ dateCreated: -1 })
+      .skip(pageSize * (page - 1))
+      .limit(pageSize)
+
+    const [homeownersCount, homeowners] = await Promise.all([
+      homeownersCountPromise,
+      homeownersPromise,
+    ])
+
+    const pageTotal = Math.ceil(homeownersCount / pageSize)
+
+    res.status(200).json({
+      homeowners,
+      hasMore: homeownersCount > page * pageSize,
+      homeownersCount,
+      pageTotal,
+      pageSize,
+    })
   } catch (error) {
     res.status(500).json({ message: 'Failed to retrieve homeowners', error })
     throw new Error(error)

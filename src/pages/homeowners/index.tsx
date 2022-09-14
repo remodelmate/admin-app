@@ -1,13 +1,17 @@
 import { Homeowners } from '@components/homeowners'
 import { Layout } from '@components/layout'
 import { Loader } from '@components/shared'
-import { useHomeowners } from '@hooks/homeowners'
+import { getHomeowners, useHomeowners } from '@hooks/homeowners'
 import { useClientIsLoggedIn } from '@utils/magic'
 import { ROUTE_MAP } from '@utils/routes'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { useQueryClient } from 'react-query'
 
 const HomeownersPage = () => {
   const router = useRouter()
+  const queryClient = useQueryClient()
+  const [page, setPage] = useState(1)
 
   const {
     data: isLoggedIn,
@@ -19,7 +23,16 @@ const HomeownersPage = () => {
     data: homeownersData,
     error: homeownersError,
     isLoading: homeownersIsLoading,
-  } = useHomeowners()
+    isPreviousData: homeownersIsPreviousData,
+  } = useHomeowners(page, { keepPreviousData: true, staleTime: 5000 })
+
+  useEffect(() => {
+    if (homeownersData?.hasMore) {
+      queryClient.prefetchQuery(['homeowners', page + 1], () =>
+        getHomeowners(page + 1)
+      )
+    }
+  }, [homeownersData, page, queryClient])
 
   if (isLoggedInLoading || homeownersIsLoading) {
     return <Loader />
@@ -34,7 +47,14 @@ const HomeownersPage = () => {
     return <></>
   }
 
-  return <Homeowners homeowners={homeownersData} />
+  return (
+    <Homeowners
+      homeownersData={homeownersData}
+      page={page}
+      setPage={setPage}
+      homeownersIsPreviousData={homeownersIsPreviousData}
+    />
+  )
 }
 
 HomeownersPage.getLayout = (page: any) => {

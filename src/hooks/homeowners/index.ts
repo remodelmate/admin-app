@@ -1,10 +1,10 @@
 import { getUserToken } from '@utils/magic'
 import { useQuery } from 'react-query'
 
-const getHomeowners = async () => {
+export const getHomeowners = async (page = 0) => {
   const token = await getUserToken()
 
-  return await fetch('/api/homeowners/getAllHomeowners', {
+  return await fetch('/api/homeowners/getAllHomeowners?page=' + page, {
     method: 'GET',
     headers: {
       authorization: `Bearer ${token}`,
@@ -14,6 +14,8 @@ const getHomeowners = async () => {
     .catch(error => console.error(error))
 }
 
-export const useHomeowners = (config?: any) => {
-  return useQuery('homeowners', getHomeowners, { ...config })
+export const useHomeowners = (page: any, config?: any) => {
+  return useQuery(['homeowners', page], () => getHomeowners(page), {
+    ...config,
+  })
 }
