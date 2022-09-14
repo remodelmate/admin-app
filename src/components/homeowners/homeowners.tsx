@@ -13,7 +13,7 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
   const { pageTotal, pageSize, homeownersCount } = homeownersData
 
   const btnFocus = 'z-10 bg-blue-50 border-blue-500 text-blue-600'
-  const noBtnFocus = 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+  const noBtnFocus = 'bg-white border-gray-300 text-gray-500 hover:bg-gray-100'
 
   return (
     <div className="flex flex-col">
@@ -113,14 +113,14 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
         {/*MOBILE VIEW BUTTONS*/}
         <div className="flex flex-1 justify-between sm:hidden">
           <button
-            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
             onClick={() => setPage(old => Math.max(old - 1, 0))}
             disabled={page === 1}
           >
             Previous
           </button>
           <button
-            className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
             onClick={() => {
               setPage(old => (homeownersData?.hasMore ? old + 1 : old))
             }}
@@ -153,7 +153,7 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
               aria-label="Pagination"
             >
               <button
-                className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+                className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:z-20"
                 onClick={() => setPage(old => Math.max(old - 1, 0))}
                 disabled={page === 1}
               >
@@ -267,7 +267,7 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
               </button>
 
               <button
-                className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+                className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:z-20"
                 onClick={() => {
                   setPage(old => (homeownersData?.hasMore ? old + 1 : old))
                 }}
