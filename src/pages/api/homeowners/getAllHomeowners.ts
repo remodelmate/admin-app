@@ -1,5 +1,5 @@
 import { dbConnect } from '@utils/mongodb'
-import { Homeowner } from 'models/homeowners'
+import { Homeowner } from 'models/homeowner'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Magic } from '@magic-sdk/admin'
 
