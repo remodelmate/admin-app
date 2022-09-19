@@ -56,8 +56,7 @@ const statesArray = [
   'WI',
   'WY',
 ]
-// TODO:
-// const categories = ["General Contactor", "Designer"]
+const categoriesArray = ['general', 'design']
 
 // @ts-expect-error hack to fix this in local dev
 delete mongoose.connection.models['Contractor'] // prevents `OverwriteModelError`
@@ -193,11 +192,13 @@ const contractorSchema = new Schema<Contractor>({
       default: false,
     },
   },
+
   backgroundCheckStatus: {
     type: String,
     required: true,
     default: 'notStarted',
   },
+
   activated: {
     type: Boolean,
     required: true,
@@ -210,15 +211,23 @@ const contractorSchema = new Schema<Contractor>({
       ref: 'Estimate',
     },
   ],
+
   stripeContractorId: {
     type: String,
     // TODO: MIGHT WANT TO CHANGE THIS LATER BUT NOT SURE YET
     required: true,
     unique: true,
   },
+
   dateCreated: {
     type: Date,
     default: Date.now(),
+  },
+
+  category: {
+    type: String,
+    required: true,
+    enum: categoriesArray,
   },
 })
 
