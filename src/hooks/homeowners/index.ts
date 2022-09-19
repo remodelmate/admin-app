@@ -14,7 +14,7 @@ export const getHomeowners = async (page = 0) => {
     .catch(error => console.error(error))
 }
 
-export const useHomeowners = (page: any, config?: any) => {
+export const useHomeowners = (page: number, config?: any) => {
   return useQuery(['homeowners', page], () => getHomeowners(page), {
     ...config,
   })
