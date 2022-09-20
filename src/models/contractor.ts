@@ -82,7 +82,7 @@ const contractorSchema = new Schema<Contractor>({
     unique: true,
     trim: true,
     lowercase: true,
-    validate(value: any) {
+    validate(value: string) {
       if (!validator.isEmail(value)) {
         throw new Error('Email is invalid')
       }
@@ -90,8 +90,8 @@ const contractorSchema = new Schema<Contractor>({
   },
   phone: {
     type: String,
-    validate(value: any) {
-      if (!validator.isMobilePhone) {
+    validate(value: string) {
+      if (!validator.isMobilePhone(value)) {
         throw new Error(`${value} is not a valid 10 digit number!`)
       }
     },

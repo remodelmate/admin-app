@@ -98,7 +98,7 @@ const homeownerSchema = new Schema<Homeowner>({
     unique: true,
     trim: true,
     lowercase: true,
-    validate(value: any) {
+    validate(value: string) {
       if (!validator.isEmail(value)) {
         throw new Error(`${value} is an invalid email`)
       }
@@ -107,8 +107,8 @@ const homeownerSchema = new Schema<Homeowner>({
 
   phone: {
     type: String,
-    validate(value: any) {
-      if (!validator.isMobilePhone) {
+    validate(value: string) {
+      if (!validator.isMobilePhone(value)) {
         throw new Error(`${value} is not a valid 10 digit number!`)
       }
     },

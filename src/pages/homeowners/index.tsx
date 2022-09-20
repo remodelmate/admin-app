@@ -5,7 +5,7 @@ import { getHomeowners, useHomeowners } from '@hooks/homeowners'
 import { useClientIsLoggedIn } from '@utils/magic'
 import { ROUTE_MAP } from '@utils/routes'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 
 const HomeownersPage = () => {
@@ -57,7 +57,7 @@ const HomeownersPage = () => {
   )
 }
 
-HomeownersPage.getLayout = (page: any) => {
+HomeownersPage.getLayout = (page: ReactNode) => {
   return <Layout>{page}</Layout>
 }
 

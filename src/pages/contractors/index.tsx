@@ -4,7 +4,7 @@ import { getContractors, useContractors } from '@hooks/contractors'
 import { useClientIsLoggedIn } from '@utils/magic'
 import { ROUTE_MAP } from '@utils/routes'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 
 const ContractorsPage = () => {
@@ -56,7 +56,7 @@ const ContractorsPage = () => {
   )
 }
 
-ContractorsPage.getLayout = (page: any) => {
+ContractorsPage.getLayout = (page: ReactNode) => {
   return <Layout>{page}</Layout>
 }
 
