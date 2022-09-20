@@ -28,7 +28,10 @@
       ],
       "@hooks/*": [
         "hooks/*"
-      ]
+      ],
+      "@assets/*": [
+        "assets/*"
+      ],
     },
     "incremental": true
   },
