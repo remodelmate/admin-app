@@ -9,7 +9,8 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
   setPage,
   homeownersIsPreviousData,
 }) => {
-  const { pageTotal, pageSize, homeownersCount, hasMore } = homeownersData
+  const { pageTotal, pageSize, homeownersCount, hasMore, homeowners } =
+    homeownersData
 
   return (
     <div className="flex flex-col">
@@ -49,7 +50,7 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {homeownersData.homeowners.map((homeowner: Homeowner) => {
+                {homeowners.map((homeowner: Homeowner) => {
                   return (
                     <tr
                       key={homeowner._id}

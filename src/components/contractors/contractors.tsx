@@ -1,14 +1,16 @@
 import { interpolateParams, ROUTE_MAP } from '@utils/routes'
 import Link from 'next/link'
 import { Dispatch, FunctionComponent, SetStateAction } from 'react'
+import { PaginateButtons } from '@components/shared'
 
 const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
   contractorsData,
-  // page,
-  // setPage,
-  // contractorsIsPreviousData,
+  page,
+  setPage,
+  contractorsIsPreviousData,
 }) => {
-  // const { pageTotal, pageSize, homeownersCount, hasMore } = contractorsData
+  const { pageTotal, pageSize, contractorsCount, hasMore, contractors } =
+    contractorsData
 
   return (
     <div className="flex flex-col">
@@ -79,7 +81,7 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
               </thead>
 
               <tbody className="bg-white divide-y divide-gray-200">
-                {contractorsData.contractors.map((contractor: any) => {
+                {contractors.map((contractor: any) => {
                   return (
                     <tr
                       key={contractor._id}
@@ -160,6 +162,16 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
           </div>
         </div>
       </div>
+
+      <PaginateButtons
+        hasMore={hasMore}
+        isPreviousData={contractorsIsPreviousData}
+        page={page}
+        setPage={setPage}
+        pageSize={pageSize}
+        totalCount={contractorsCount}
+        pageTotal={pageTotal}
+      />
     </div>
   )
 }
@@ -170,7 +182,6 @@ export const Contractors: FunctionComponent<ContractorsProps> = ({
   setPage,
   contractorsIsPreviousData,
 }) => {
-  console.log({ contractorsData, page, setPage, contractorsIsPreviousData })
   return (
     <main className="flex-1 mb-10 sm:mb-12">
       <div>

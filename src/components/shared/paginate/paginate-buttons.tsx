@@ -62,7 +62,7 @@ export const PaginateButtons: FunctionComponent<PaginateButtonsProps> = ({
         </div>
         <div>
           <nav
-            className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+            className="isolate inline-flex -space-x-px rounded-md shadow-sm whitespace-nowrap"
             aria-label="Pagination"
           >
             <button
@@ -85,7 +85,7 @@ export const PaginateButtons: FunctionComponent<PaginateButtonsProps> = ({
             >
               1
             </button>
-            {(page <= 3 || page >= pageTotal - 2) && (
+            {2 <= pageTotal && (page <= 3 || page >= pageTotal - 2) && (
               <button
                 className={clsx(
                   page === 2 ? btnFocus : noBtnFocus,
@@ -96,7 +96,7 @@ export const PaginateButtons: FunctionComponent<PaginateButtonsProps> = ({
                 2
               </button>
             )}
-            {(page <= 3 || page >= pageTotal - 2) && (
+            {3 <= pageTotal && (page <= 3 || page >= pageTotal - 2) && (
               <button
                 className={clsx(
                   page === 3 ? btnFocus : noBtnFocus,
@@ -107,9 +107,42 @@ export const PaginateButtons: FunctionComponent<PaginateButtonsProps> = ({
                 3
               </button>
             )}
+            {4 <= pageTotal && pageTotal <= 6 && (
+              <button
+                className={clsx(
+                  page === 4 ? btnFocus : noBtnFocus,
+                  'relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20'
+                )}
+                onClick={() => setPage(4)}
+              >
+                4
+              </button>
+            )}
+            {5 <= pageTotal && pageTotal <= 6 && (
+              <button
+                className={clsx(
+                  page === 5 ? btnFocus : noBtnFocus,
+                  'relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20'
+                )}
+                onClick={() => setPage(5)}
+              >
+                5
+              </button>
+            )}
+            {6 <= pageTotal && pageTotal <= 6 && (
+              <button
+                className={clsx(
+                  page === 6 ? btnFocus : noBtnFocus,
+                  'relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20'
+                )}
+                onClick={() => setPage(6)}
+              >
+                6
+              </button>
+            )}
 
-            {/* should only be visible if current page >= 4 */}
-            {page >= 4 && (
+            {/* should only be visible if current page >= 4 and total pages is less than 6 */}
+            {6 < pageTotal && page >= 4 && (
               <span className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">
                 ...
               </span>
@@ -140,25 +173,27 @@ export const PaginateButtons: FunctionComponent<PaginateButtonsProps> = ({
               </div>
             )}
 
-            {/* should only be visible if the last 3 buttons are visible */}
-            {page < pageTotal - 2 && (
+            {/* should only be visible if the last 3 buttons are visible and total pages is less than 6 */}
+            {6 < pageTotal && page < pageTotal - 2 && (
               <span className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">
                 ...
               </span>
             )}
 
-            {(page >= pageTotal - 2 || page < 4) && (
-              <button
-                className={clsx(
-                  page === pageTotal - 2 ? btnFocus : noBtnFocus,
-                  'relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20'
-                )}
-                onClick={() => setPage(pageTotal - 2)}
-              >
-                {pageTotal - 2}
-              </button>
-            )}
-            {(page >= pageTotal - 2 || page < 4) && (
+            {6 < pageTotal &&
+              2 <= pageTotal &&
+              (page >= pageTotal - 2 || page < 4) && (
+                <button
+                  className={clsx(
+                    page === pageTotal - 2 ? btnFocus : noBtnFocus,
+                    'relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20'
+                  )}
+                  onClick={() => setPage(pageTotal - 2)}
+                >
+                  {pageTotal - 2}
+                </button>
+              )}
+            {6 < pageTotal && (page >= pageTotal - 2 || page < 4) && (
               <button
                 className={clsx(
                   page === pageTotal - 1 ? btnFocus : noBtnFocus,
@@ -169,15 +204,17 @@ export const PaginateButtons: FunctionComponent<PaginateButtonsProps> = ({
                 {pageTotal - 1}
               </button>
             )}
-            <button
-              className={clsx(
-                page === pageTotal ? btnFocus : noBtnFocus,
-                'relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20'
-              )}
-              onClick={() => setPage(pageTotal)}
-            >
-              {pageTotal}
-            </button>
+            {6 < pageTotal && (
+              <button
+                className={clsx(
+                  page === pageTotal ? btnFocus : noBtnFocus,
+                  'relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20'
+                )}
+                onClick={() => setPage(pageTotal)}
+              >
+                {pageTotal}
+              </button>
+            )}
 
             <button
               className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:z-20"
