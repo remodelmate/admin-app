@@ -27,7 +27,7 @@ const ContractorsPage = () => {
 
   useEffect(() => {
     if (contractorsData?.hasMore) {
-      queryClient.prefetchQuery(['homeowners', page + 1], () =>
+      queryClient.prefetchQuery(['contractors', page + 1], () =>
         getContractors(page + 1)
       )
     }
