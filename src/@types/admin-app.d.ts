@@ -35,6 +35,7 @@ interface Receipt {
 }
 
 interface Homeowner {
+  _id: string
   firstName: string
   lastName: string
   address: HomeownerAddress

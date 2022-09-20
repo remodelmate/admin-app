@@ -49,7 +49,7 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {homeownersData.homeowners.map((homeowner: any) => {
+                {homeownersData.homeowners.map((homeowner: Homeowner) => {
                   return (
                     <tr
                       key={homeowner._id}
