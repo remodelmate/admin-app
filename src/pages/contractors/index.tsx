@@ -1,14 +1,14 @@
-import { Homeowners } from '@components/homeowners'
+import { Contractors } from '@components/contractors'
 import { Layout } from '@components/layout'
 import { Loader } from '@components/shared'
-import { getHomeowners, useHomeowners } from '@hooks/homeowners'
+import { getContractors, useContractors } from '@hooks/contractors'
 import { useClientIsLoggedIn } from '@utils/magic'
 import { ROUTE_MAP } from '@utils/routes'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 
-const HomeownersPage = () => {
+const ContractorsPage = () => {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
@@ -20,25 +20,25 @@ const HomeownersPage = () => {
   } = useClientIsLoggedIn()
 
   const {
-    data: homeownersData,
-    error: homeownersError,
-    isLoading: homeownersIsLoading,
-    isPreviousData: homeownersIsPreviousData,
-  } = useHomeowners(page, { keepPreviousData: true, staleTime: 5000 })
+    data: contractorsData,
+    error: contractorsError,
+    isLoading: contractorsIsLoading,
+    isPreviousData: contractorsIsPreviousData,
+  } = useContractors(page, { keepPreviousData: true, staleTime: 5000 })
 
   useEffect(() => {
-    if (homeownersData?.hasMore) {
-      queryClient.prefetchQuery(['homeowners', page + 1], () =>
-        getHomeowners(page + 1)
+    if (contractorsData?.hasMore) {
+      queryClient.prefetchQuery(['contractors', page + 1], () =>
+        getContractors(page + 1)
       )
     }
-  }, [homeownersData, page, queryClient])
+  }, [contractorsData, page, queryClient])
 
-  if (isLoggedInLoading || homeownersIsLoading) {
+  if (isLoggedInLoading || contractorsIsLoading) {
     return <Loader />
   }
 
-  if (isLoggedInError || homeownersError) {
+  if (isLoggedInError || contractorsError) {
     return <div>There was an error</div>
   }
 
@@ -48,17 +48,17 @@ const HomeownersPage = () => {
   }
 
   return (
-    <Homeowners
-      homeownersData={homeownersData}
+    <Contractors
+      contractorsData={contractorsData}
       page={page}
       setPage={setPage}
-      homeownersIsPreviousData={homeownersIsPreviousData}
+      contractorsIsPreviousData={contractorsIsPreviousData}
     />
   )
 }
 
-HomeownersPage.getLayout = (page: ReactNode) => {
+ContractorsPage.getLayout = (page: ReactNode) => {
   return <Layout>{page}</Layout>
 }
 
-export default HomeownersPage
+export default ContractorsPage
