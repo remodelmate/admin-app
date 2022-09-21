@@ -1,5 +1,6 @@
 import { Contractors } from '@components/contractors'
 import { Layout } from '@components/layout'
+import { Loader } from '@components/shared'
 import { getContractors, useContractors } from '@hooks/contractors'
 import { useClientIsLoggedIn } from '@utils/magic'
 import { ROUTE_MAP } from '@utils/routes'
@@ -34,7 +35,7 @@ const ContractorsPage = () => {
   }, [contractorsData, page, queryClient])
 
   if (isLoggedInLoading || contractorsIsLoading) {
-    return <></>
+    return <Loader />
   }
 
   if (isLoggedInError || contractorsError) {
