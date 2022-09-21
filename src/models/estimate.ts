@@ -110,6 +110,13 @@ const estimateSchema = new Schema<Estimate>({
     },
   ],
 
+  contractors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Contractor',
+    },
+  ],
+
   receipts: [
     {
       type: mongoose.Schema.Types.ObjectId,
