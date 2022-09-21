@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 export const getEstimates = async (page = 0) => {
   const token = await getUserToken()
 
-  return await fetch('/api/contractors/getAllEstimates?page=' + page, {
+  return await fetch('/api/estimates/getAllEstimates?page=' + page, {
     method: 'GET',
     headers: {
       authorization: `Bearer ${token}`,
