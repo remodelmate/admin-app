@@ -81,7 +81,7 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
               </thead>
 
               <tbody className="bg-white divide-y divide-gray-200">
-                {contractors.map((contractor: any) => {
+                {contractors.map((contractor: Contractor) => {
                   return (
                     <tr
                       key={contractor._id}
