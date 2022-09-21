@@ -150,7 +150,11 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
                           <span className=" align-middle">
-                            {contractor.backgroundCheckStatus}
+                            {contractor.backgroundCheckStatus === 'passed' ? (
+                              <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                            ) : (
+                              <XCircleIcon className="h-5 w-5 text-red-500" />
+                            )}
                           </span>
                         </div>
                       </td>
