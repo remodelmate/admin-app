@@ -2,6 +2,7 @@ import { interpolateParams, ROUTE_MAP } from '@utils/routes'
 import Link from 'next/link'
 import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { PaginateButtons } from '@components/shared'
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 
 const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
   contractorsData,
@@ -117,19 +118,33 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {String(
-                            contractor.contractorsLicense.licenseVerified
+                          {contractor.category === 'design' ? (
+                            '-'
+                          ) : contractor.contractorsLicense.licenseVerified ? (
+                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XCircleIcon className="h-5 w-5 text-red-500" />
                           )}
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {String(contractor.insurancePolicy.insuranceVerified)}
+                          {contractor.category === 'design' ? (
+                            '-'
+                          ) : contractor.insurancePolicy.insuranceVerified ? (
+                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XCircleIcon className="h-5 w-5 text-red-500" />
+                          )}
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {String(contractor.activated)}
+                          {contractor.category === 'design' ? (
+                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XCircleIcon className="h-5 w-5 text-red-500" />
+                          )}
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
