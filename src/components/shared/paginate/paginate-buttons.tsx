@@ -107,6 +107,8 @@ export const PaginateButtons: FunctionComponent<PaginateButtonsProps> = ({
                 3
               </button>
             )}
+
+            {/* These next 3 buttons will only show if totalPages are less or equal to 6 */}
             {4 <= pageTotal && pageTotal <= 6 && (
               <button
                 className={clsx(
