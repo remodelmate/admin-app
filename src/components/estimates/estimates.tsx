@@ -22,43 +22,43 @@ const EstimatesTable: FunctionComponent<EstimatesTableProps> = ({
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Homeowner
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Contractor
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Address
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Activated
                   </th>
                   <th
                     scope="col"
-                    className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Completed
                   </th>
                   <th
                     scope="col"
-                    className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
                   >
                     Total Cost
                   </th>
                   <th
                     scope="col"
-                    className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Date Created
                   </th>
@@ -74,12 +74,12 @@ const EstimatesTable: FunctionComponent<EstimatesTableProps> = ({
                       key={estimate._id}
                       className="hover:bg-gray-100 transition-all"
                     >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="text-sm text-gray-900">
                           {`${estimate._homeowner?.firstName} ${estimate._homeowner?.lastName}`}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 py-4 whitespace-nowrap">
                         {estimate.contractors.map((contractor: Contractor) => {
                           return (
                             <div
@@ -91,7 +91,7 @@ const EstimatesTable: FunctionComponent<EstimatesTableProps> = ({
                           )
                         })}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
                           {estimate.address.street}
                         </div>
@@ -99,22 +99,22 @@ const EstimatesTable: FunctionComponent<EstimatesTableProps> = ({
                           {`${estimate.address.city}, ${estimate.address.state} ${estimate.address.zip}`}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
                           {String(estimate.activated)}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
                           {String(estimate.completed)}
                         </div>
                       </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
+                      <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
                           {estimate.totalCost}
                         </div>
                       </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
+                      <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
                           {String(estimate.dateCreated)}
                         </div>
