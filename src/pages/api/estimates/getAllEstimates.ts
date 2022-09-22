@@ -2,6 +2,8 @@ import { dbConnect } from '@utils/mongodb'
 import { Estimate } from 'models/estimate'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Magic } from '@magic-sdk/admin'
+require('models/homeowner')
+require('models/contractor')
 
 const magic = new Magic(process.env.MAGIC_SECRET_KEY)
 
@@ -26,6 +28,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const estimatesCountPromise = Estimate.estimatedDocumentCount({})
 
     const estimatesPromise = Estimate.find({})
+      .populate({
+        path: '_homeowner',
+        select: 'firstName lastName',
+      })
+      .populate({
+        path: 'contractors',
+        select: 'firstName lastName',
+      })
       .sort({ dateCreated: -1 })
       .skip(pageSize * (page - 1))
       .limit(pageSize)
