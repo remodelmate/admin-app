@@ -69,10 +69,6 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {/* {homeowner.phone.replace(
-                            /^(\d{3})(\d{3})(\d{4})/,
-                            '$1-$2-$3'
-                          )} */}
                           {formatPhoneNumber(homeowner.phone)}
                         </div>
                       </td>
@@ -88,7 +84,7 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
                         <div className="text-indigo-600 ">
                           <Link
                             href={interpolateParams(
-                              ROUTE_MAP.app.projectsDetail,
+                              ROUTE_MAP.app.homeownersDetail,
                               { homeownerId: homeowner._id }
                             )}
                           >

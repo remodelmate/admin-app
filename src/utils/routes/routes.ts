@@ -14,6 +14,7 @@ export const ROUTE_MAP = {
     earnings: '/earnings',
     profile: '/profile',
     homeowners: '/homeowners',
+    homeownersDetail: 'homeowners/:homeownerId',
     estimates: '/estimates',
     contractors: '/contractors',
   },
