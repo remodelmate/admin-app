@@ -1,5 +1,6 @@
 interface Estimate {
-  _homeowner: string
+  _id: string
+  _homeowner: Homeowner
   _contractor: string
   address: Address
   milestones: Milestone[]
@@ -9,6 +10,7 @@ interface Estimate {
   totalCost: number
   remainingBalance: number
   dateCreated: Date
+  contractors: Contractor[]
 }
 
 interface Milestone {
