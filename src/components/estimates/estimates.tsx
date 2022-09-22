@@ -2,6 +2,7 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { PaginateButtons } from '@components/shared'
 import Link from 'next/link'
 import { interpolateParams, ROUTE_MAP } from '@utils/routes'
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 
 const EstimatesTable: FunctionComponent<EstimatesTableProps> = ({
   estimatesData,
@@ -101,12 +102,20 @@ const EstimatesTable: FunctionComponent<EstimatesTableProps> = ({
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {String(estimate.activated)}
+                          {estimate.activated ? (
+                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XCircleIcon className="h-5 w-5 text-red-500" />
+                          )}
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {String(estimate.completed)}
+                          {estimate.completed ? (
+                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XCircleIcon className="h-5 w-5 text-red-500" />
+                          )}
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
