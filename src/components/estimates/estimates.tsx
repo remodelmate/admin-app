@@ -3,6 +3,7 @@ import { PaginateButtons } from '@components/shared'
 import Link from 'next/link'
 import { interpolateParams, ROUTE_MAP } from '@utils/routes'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { format } from 'date-fns'
 
 const EstimatesTable: FunctionComponent<EstimatesTableProps> = ({
   estimatesData,
@@ -125,7 +126,8 @@ const EstimatesTable: FunctionComponent<EstimatesTableProps> = ({
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {String(estimate.dateCreated)}
+                          {format(new Date(estimate.dateCreated), 'PP p')}
+                          {/* {estimate.dateCreated} */}
                         </div>
                       </td>
 
