@@ -19,3 +19,20 @@ export const useHomeowners = (page: number, config?: any) => {
     ...config,
   })
 }
+
+export const getHomeowner = async (id: string) => {
+  const token = await getUserToken()
+
+  const body = JSON.stringify({ id })
+
+  return await fetch('/api/homeowners/getHomeowner', {
+    method: 'POST',
+    body: body,
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(data => data.json())
+    .catch(error => console.error(error))
+}
