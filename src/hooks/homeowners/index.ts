@@ -36,3 +36,7 @@ export const getHomeowner = async (id: string) => {
     .then(data => data.json())
     .catch(error => console.error(error))
 }
+
+export const useHomeowner = (id: string, config?: any) => {
+  return useQuery(['homeowner', id], () => getHomeowner(id), { ...config })
+}
