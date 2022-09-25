@@ -2,6 +2,7 @@ import { interpolateParams, ROUTE_MAP } from '@utils/routes'
 import Link from 'next/link'
 import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { PaginateButtons } from '@components/shared'
+import { formatPhoneNumber } from '@utils/phone'
 
 const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
   homeownersData,
@@ -68,10 +69,7 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {homeowner.phone.replace(
-                            /^(\d{3})(\d{3})(\d{4})/,
-                            '$1-$2-$3'
-                          )}
+                          {formatPhoneNumber(homeowner.phone)}
                         </div>
                       </td>
                       <td className="px-4 py-2 whitespace-nowrap">
@@ -86,7 +84,7 @@ const HomeownersTable: FunctionComponent<HomeownersTableProps> = ({
                         <div className="text-indigo-600 ">
                           <Link
                             href={interpolateParams(
-                              ROUTE_MAP.app.projectsDetail,
+                              ROUTE_MAP.app.homeownersDetail,
                               { homeownerId: homeowner._id }
                             )}
                           >

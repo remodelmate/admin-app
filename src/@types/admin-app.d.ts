@@ -44,7 +44,7 @@ interface Homeowner {
   email: string
   phone: string
   stripeCustomerId: string
-  estimates: string // ref
+  estimates: [] // ref
   dateCreated: Date
 }
 
