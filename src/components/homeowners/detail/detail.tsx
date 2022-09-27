@@ -187,7 +187,7 @@ export const HomeownerDetail: FunctionComponent<HomeownerDetailProps> = ({
 }) => {
   const { email, phone, dateCreated, stripeCustomerId, estimates } = homeowner
   const name = `${homeowner.firstName} ${homeowner.lastName}`
-  console.log(estimates)
+
   return (
     <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mb-16 sm:mb-20">
       <Section title={'Homeowner Detail'}>

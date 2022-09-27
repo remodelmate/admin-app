@@ -163,7 +163,7 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                         <div className="text-indigo-600 ">
                           <Link
                             href={interpolateParams(
-                              ROUTE_MAP.app.projectsDetail,
+                              ROUTE_MAP.app.contractorDetail,
                               { contractorId: contractor._id }
                             )}
                           >

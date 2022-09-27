@@ -1,6 +1,6 @@
 import { dbConnect } from '@utils/mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Homeowner } from 'models/homeowner'
+import { Contractor } from 'models/contractor'
 import { Magic } from '@magic-sdk/admin'
 require('models/estimate')
 
@@ -24,17 +24,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           .send({ message: 'No email address from metadata' })
       }
 
-      const homeowner = await Homeowner.findOne({ _id: req.body.id })
+      const contractor = await Contractor.findOne({ _id: req.body.id })
         .populate({
-          path: 'estimates',
+          path: 'projects',
           select: 'address activated completed totalCost dateCreated',
           options: { sort: { dateCreated: -1 } },
         })
         .lean()
 
-      res.status(200).json({ ...homeowner })
+      res.status(200).json({ ...contractor })
     } catch (error) {
-      res.status(500).json({ message: 'Failed to retrieve homeowner', error })
+      res.status(500).json({ message: 'Failed to retrieve contractor', error })
       throw new Error(error)
     }
   } else {

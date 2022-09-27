@@ -19,3 +19,24 @@ export const useContractors = (page: number, config?: any) => {
     ...config,
   })
 }
+
+export const getContractor = async (id: string) => {
+  const token = await getUserToken()
+
+  const body = JSON.stringify({ id })
+
+  return await fetch('/api/contractors/getContractor', {
+    method: 'POST',
+    body: body,
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(data => data.json())
+    .catch(error => console.error(error))
+}
+
+export const useContractor = (id: string, config?: any) => {
+  return useQuery(['homeowner', id], () => getContractor(id), { ...config })
+}
