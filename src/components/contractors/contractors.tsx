@@ -90,7 +90,10 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                     >
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="text-sm text-gray-900">
-                          {contractor.category}
+                          {contractor.category
+                            ? contractor.category.charAt(0).toUpperCase() +
+                              contractor.category.slice(1)
+                            : 'N/A'}
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
