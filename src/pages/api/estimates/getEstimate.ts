@@ -38,10 +38,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           select: 'firstName lastName',
         })
         .populate({
-          path: 'milestone',
+          path: 'milestones',
+          populate: { path: 'receipt' },
         })
         .populate({
-          path: 'receipt',
+          path: 'receipts',
         })
         .lean()
 
