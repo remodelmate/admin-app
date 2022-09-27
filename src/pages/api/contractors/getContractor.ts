@@ -27,7 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         .populate({
           path: 'projects',
           select: 'address activated completed totalCost dateCreated',
-          options: { sort: { created_at: -1 } },
+          options: { sort: { dateCreated: -1 } },
         })
         .lean()
 
