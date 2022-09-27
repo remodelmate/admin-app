@@ -2,6 +2,7 @@ import { dbConnect } from '@utils/mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Homeowner } from 'models/homeowner'
 import { Magic } from '@magic-sdk/admin'
+require('models/estimate')
 
 const magic = new Magic(process.env.MAGIC_SECRET_KEY)
 
