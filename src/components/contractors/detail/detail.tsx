@@ -1,11 +1,12 @@
 import Image from 'next/image'
-import { FunctionComponent, ReactNode } from 'react'
+import { FunctionComponent, ReactNode, useState } from 'react'
 import { format } from 'date-fns'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { formatPhoneNumber } from '@utils/phone'
 import { formatCurrency } from '@utils/currency'
 import Link from 'next/link'
 import { interpolateParams, ROUTE_MAP } from '@utils/routes'
+import { EnlargeImage } from '@components/shared'
 
 const Section: FunctionComponent<SectionProps> = ({ title, children }) => {
   return (
@@ -36,199 +37,223 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
     activated,
     stripeContractorId,
   } = contractor
+  const [imageClick, setImageClick] = useState(false)
+  const [enlargeSrc, setEnlargeSrc] = useState('')
+
+  const handleClick = (imageSrc: string) => {
+    setEnlargeSrc(imageSrc)
+    setImageClick(true)
+  }
+
   return (
-    <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-      <div className=" border-gray-200 px-4 py-5 sm:p-0">
-        <dl className="sm:divide-y sm:divide-gray-200">
-          <div className="py-5 sm:px-6">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Company
-            </h3>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Category</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {category?.charAt(0).toUpperCase() + category?.slice(1)}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Name</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {companyName}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Address</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <div className="text-sm text-gray-900">
-                {companyAddress.street}
-              </div>
-              <div className="text-sm text-gray-500">
-                {`${companyAddress.city}, ${companyAddress.state} ${companyAddress.zip}`}
-              </div>
-            </dd>
-          </div>
-          <div className="py-5 sm:px-6">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Contact Person
-            </h3>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Profile Image</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <Image
-                src={profileImage}
-                alt="profileImage"
-                width="80"
-                height="80"
-                objectFit="cover"
-              />
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Name</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {`${firstName} ${lastName}`}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Email</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {email}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Phone</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <a href={`tel:${phone}`}>{formatPhoneNumber(phone)}</a>
-            </dd>
-          </div>
-          <div className="py-5 sm:px-6">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Contractor's License
-            </h3>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Image</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <Image
-                src={contractorsLicense.licenseImage}
-                alt="licenseImage"
-                width="80"
-                height="80"
-                objectFit="cover"
-              />
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Number</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {contractorsLicense.licenseNumber}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">State</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {contractorsLicense.state}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Expiration Date
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {format(new Date(contractorsLicense.expirationDate), 'PP')}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Verified</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {contractorsLicense.licenseVerified ? (
-                <CheckCircleIcon className="h-5 w-5 text-green-500" />
-              ) : (
-                <XCircleIcon className="h-5 w-5 text-red-500" />
-              )}
-            </dd>
-          </div>
-          <div className="py-5 sm:px-6">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Insurance Policy
-            </h3>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Image</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <Image
-                src={insurancePolicy.insuranceImage}
-                alt="licenseImage"
-                width="80"
-                height="80"
-                objectFit="cover"
-              />
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Number</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {insurancePolicy.policyNumber}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Expiration Date
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {format(new Date(insurancePolicy.expirationDate), 'PP')}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Verified</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {insurancePolicy.insuranceVerified ? (
-                <CheckCircleIcon className="h-5 w-5 text-green-500" />
-              ) : (
-                <XCircleIcon className="h-5 w-5 text-red-500" />
-              )}
-            </dd>
-          </div>
-          <div className="py-5 sm:px-6">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Status
-            </h3>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Activation</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {activated ? (
-                <CheckCircleIcon className="h-5 w-5 text-green-500" />
-              ) : (
-                <XCircleIcon className="h-5 w-5 text-red-500" />
-              )}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Background Check
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {backgroundCheckStatus === 'passed' ? (
-                <CheckCircleIcon className="h-5 w-5 text-green-500" />
-              ) : (
-                <XCircleIcon className="h-5 w-5 text-red-500" />
-              )}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Stripe Account
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {stripeContractorId}
-            </dd>
-          </div>
-        </dl>
+    <>
+      <div className="overflow-hidden bg-white shadow sm:rounded-lg">
+        <div className=" border-gray-200 px-4 py-5 sm:p-0">
+          <dl className="sm:divide-y sm:divide-gray-200">
+            <div className="py-5 sm:px-6">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
+                Company
+              </h3>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Category</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {category?.charAt(0).toUpperCase() + category?.slice(1)}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Name</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {companyName}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Address</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <div className="text-sm text-gray-900">
+                  {companyAddress.street}
+                </div>
+                <div className="text-sm text-gray-500">
+                  {`${companyAddress.city}, ${companyAddress.state} ${companyAddress.zip}`}
+                </div>
+              </dd>
+            </div>
+            <div className="py-5 sm:px-6">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
+                Contact Person
+              </h3>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">
+                Profile Image
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <Image
+                  className="cursor-pointer"
+                  src={profileImage}
+                  alt="profileImage"
+                  width="80"
+                  height="80"
+                  objectFit="cover"
+                  onClick={() => handleClick(profileImage)}
+                />
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Name</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {`${firstName} ${lastName}`}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Email</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {email}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Phone</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <a href={`tel:${phone}`}>{formatPhoneNumber(phone)}</a>
+              </dd>
+            </div>
+            <div className="py-5 sm:px-6">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
+                Contractor's License
+              </h3>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Image</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <Image
+                  className="cursor-pointer"
+                  src={contractorsLicense.licenseImage}
+                  alt="licenseImage"
+                  width="80"
+                  height="80"
+                  objectFit="cover"
+                  onClick={() => handleClick(contractorsLicense.licenseImage)}
+                />
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Number</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {contractorsLicense.licenseNumber}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">State</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {contractorsLicense.state}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">
+                Expiration Date
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {format(new Date(contractorsLicense.expirationDate), 'PP')}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Verified</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {contractorsLicense.licenseVerified ? (
+                  <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                ) : (
+                  <XCircleIcon className="h-5 w-5 text-red-500" />
+                )}
+              </dd>
+            </div>
+            <div className="py-5 sm:px-6">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
+                Insurance Policy
+              </h3>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Image</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <Image
+                  className="cursor-pointer"
+                  src={insurancePolicy.insuranceImage}
+                  alt="licenseImage"
+                  width="80"
+                  height="80"
+                  objectFit="cover"
+                  onClick={() => handleClick(insurancePolicy.insuranceImage)}
+                />
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Number</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {insurancePolicy.policyNumber}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">
+                Expiration Date
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {format(new Date(insurancePolicy.expirationDate), 'PP')}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Verified</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {insurancePolicy.insuranceVerified ? (
+                  <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                ) : (
+                  <XCircleIcon className="h-5 w-5 text-red-500" />
+                )}
+              </dd>
+            </div>
+            <div className="py-5 sm:px-6">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
+                Status
+              </h3>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Activation</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {activated ? (
+                  <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                ) : (
+                  <XCircleIcon className="h-5 w-5 text-red-500" />
+                )}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">
+                Background Check
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {backgroundCheckStatus === 'passed' ? (
+                  <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                ) : (
+                  <XCircleIcon className="h-5 w-5 text-red-500" />
+                )}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">
+                Stripe Account
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {stripeContractorId}
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
-    </div>
+      <EnlargeImage
+        imageClick={imageClick}
+        setImageClick={setImageClick}
+        enlargeSrc={enlargeSrc}
+        setEnlargeSrc={setEnlargeSrc}
+      />
+    </>
   )
 }
 
