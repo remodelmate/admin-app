@@ -160,7 +160,7 @@ const EstimatesSection: FunctionComponent<EstimatesSectionProps> = ({
                         <div className="text-indigo-600 ">
                           <Link
                             href={interpolateParams(
-                              ROUTE_MAP.app.projectsDetail,
+                              ROUTE_MAP.app.estimateDetail,
                               { estimateId: estimate._id }
                             )}
                           >

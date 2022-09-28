@@ -16,6 +16,7 @@ export const ROUTE_MAP = {
     homeowners: '/homeowners',
     homeownersDetail: 'homeowners/:homeownerId',
     estimates: '/estimates',
+    estimateDetail: '/estimates/:estimateId',
     contractors: '/contractors',
     contractorDetail: 'contractors/:contractorId',
   },

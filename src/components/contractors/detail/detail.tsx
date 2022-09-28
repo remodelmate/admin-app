@@ -351,7 +351,7 @@ const ProjectsSection: FunctionComponent<ProjectsSectionProps> = ({
                         <div className="text-indigo-600 ">
                           <Link
                             href={interpolateParams(
-                              ROUTE_MAP.app.projectsDetail,
+                              ROUTE_MAP.app.estimateDetail,
                               { estimateId: project._id }
                             )}
                           >

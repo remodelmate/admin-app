@@ -14,7 +14,10 @@ export const getContractors = async (page = 0) => {
     .catch(error => console.error(error))
 }
 
-export const useContractors = (page: number, config?: any) => {
+export const useContractors = (
+  page: number,
+  config?: Record<string, unknown>
+) => {
   return useQuery(['contractors', page], () => getContractors(page), {
     ...config,
   })
@@ -37,6 +40,6 @@ export const getContractor = async (id: string) => {
     .catch(error => console.error(error))
 }
 
-export const useContractor = (id: string, config?: any) => {
+export const useContractor = (id: string, config?: Record<string, unknown>) => {
   return useQuery(['homeowner', id], () => getContractor(id), { ...config })
 }
