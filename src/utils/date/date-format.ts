@@ -5,3 +5,11 @@ export const formatStripeTime = (stripeTime: number) => {
 
   return formattedTime
 }
+
+export const dateConversion = (date: Date | string) => {
+  if (date) {
+    return format(new Date(date), 'PP')
+  }
+
+  return 'N/A'
+}
