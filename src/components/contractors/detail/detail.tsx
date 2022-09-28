@@ -7,6 +7,7 @@ import { formatCurrency } from '@utils/currency'
 import Link from 'next/link'
 import { interpolateParams, ROUTE_MAP } from '@utils/routes'
 import { EnlargeImage } from '@components/shared'
+import { dateConversion } from '@utils/date'
 
 const Section: FunctionComponent<SectionProps> = ({ title, children }) => {
   return (
@@ -44,7 +45,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
     setEnlargeSrc(imageSrc)
     setImageClick(true)
   }
-
+  console.log(contractorsLicense.expirationDate)
   return (
     <>
       <div className="overflow-hidden bg-white shadow sm:rounded-lg">
@@ -153,7 +154,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
                 Expiration Date
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {format(new Date(contractorsLicense.expirationDate), 'PP')}
+                {dateConversion(contractorsLicense.expirationDate)}
               </dd>
             </div>
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
@@ -196,7 +197,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
                 Expiration Date
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {format(new Date(insurancePolicy.expirationDate), 'PP')}
+                {dateConversion(insurancePolicy.expirationDate)}
               </dd>
             </div>
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
