@@ -133,7 +133,7 @@ const MilestonesSection: FunctionComponent<MilestonesSectionProps> = ({
     setEnlargeSrc(imageSrc)
     setImageClick(true)
   }
-  console.log(milestones)
+
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
