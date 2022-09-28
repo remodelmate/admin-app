@@ -39,7 +39,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         })
         .populate({
           path: 'milestones',
-          populate: { path: 'receipt' },
+          populate: { path: 'receipt _contractor' },
         })
         .populate({
           path: 'receipts',
