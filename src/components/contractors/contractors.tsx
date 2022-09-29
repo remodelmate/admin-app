@@ -132,7 +132,8 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {contractor.category === 'design' ? (
+                          {contractor.category === 'design' &&
+                          !contractor.insurancePolicy.policyNumber ? (
                             '-'
                           ) : contractor.insurancePolicy.insuranceVerified ? (
                             <CheckCircleIcon className="h-5 w-5 text-green-500" />
@@ -143,7 +144,7 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {contractor.category === 'design' ? (
+                          {contractor.activated ? (
                             <CheckCircleIcon className="h-5 w-5 text-green-500" />
                           ) : (
                             <XCircleIcon className="h-5 w-5 text-red-500" />

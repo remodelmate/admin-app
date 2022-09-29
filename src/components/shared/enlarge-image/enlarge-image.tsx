@@ -1,6 +1,6 @@
 import { FunctionComponent, Dispatch, SetStateAction } from 'react'
 import clsx from 'clsx'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { XCircleIcon } from '@heroicons/react/24/outline'
 
 export const EnlargeImage: FunctionComponent<EnlargeImageProps> = ({
   imageClick,
@@ -21,7 +21,7 @@ export const EnlargeImage: FunctionComponent<EnlargeImageProps> = ({
         }}
       >
         <div className="relative flex justify-end pr-3 -mb-12">
-          <XMarkIcon width="36" height="36" />
+          <XCircleIcon className="bg-white" width="36" height="36" />
         </div>
         <img
           src={enlargeSrc}
