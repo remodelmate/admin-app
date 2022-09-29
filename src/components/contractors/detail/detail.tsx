@@ -44,7 +44,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
     setEnlargeSrc(imageSrc)
     setImageClick(true)
   }
-  console.log(typeof contractorsLicense.licenseImage)
+
   return (
     <>
       <div className="overflow-hidden bg-white shadow sm:rounded-lg">
