@@ -35,7 +35,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         })
         .populate({
           path: 'contractors',
-          select: 'firstName lastName',
+          select: 'firstName lastName email',
         })
         .populate({
           path: 'milestones',

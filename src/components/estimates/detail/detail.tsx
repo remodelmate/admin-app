@@ -7,6 +7,7 @@ import { formatCurrency } from '@utils/currency'
 import { interpolateParams, ROUTE_MAP } from '@utils/routes'
 import Image from 'next/image'
 import { EnlargeImage } from '@components/shared'
+import { EstimateEdit } from './forms'
 
 const Section: FunctionComponent<SectionProps> = ({ title, children }) => {
   return (
@@ -31,95 +32,141 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({ estimate }) => {
     dateCreated,
   } = estimate
 
+  const [open, setOpen] = useState<boolean>(false)
+
   return (
-    <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-      <div className="border-gray-200 px-4 py-5 sm:p-0">
-        <dl className="sm:divide-y sm:divide-gray-200">
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Homeowner</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {`${_homeowner.firstName} ${_homeowner.lastName}`}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Address</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <div className="text-sm text-gray-900">{address.street}</div>
-              <div className="text-sm text-gray-500">
-                {`${address.city}, ${address.state} ${address.zip}`}
-              </div>
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Email</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {_homeowner.email}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Phone</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <a href={`tel:${_homeowner.phone}`}>
-                {formatPhoneNumber(_homeowner.phone)}
-              </a>
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Contractors</dt>
-            <dd className="mt-1 text-sm text-gray-500 sm:col-span-2 sm:mt-0 space-y-1">
-              {contractors?.map((contractor: Contractor) => (
-                <div
-                  key={contractor._id}
-                  className="flex flex-col badge badge-outline"
-                >
-                  {`${contractor.firstName} ${contractor.lastName}`}
+    <>
+      <div className="overflow-hidden bg-white shadow sm:rounded-lg">
+        <div className="border-gray-200 px-4 py-5 sm:p-0">
+          <dl className="sm:divide-y sm:divide-gray-200">
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Homeowner</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {`${_homeowner.firstName} ${_homeowner.lastName}`}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Address</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <div className="text-sm text-gray-900">{address.street}</div>
+                <div className="text-sm text-gray-500">
+                  {`${address.city}, ${address.state} ${address.zip}`}
                 </div>
-              ))}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Activated</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {activated ? (
-                <CheckCircleIcon className="h-5 w-5 text-green-500" />
-              ) : (
-                <XCircleIcon className="h-5 w-5 text-red-500" />
-              )}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Completed</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {completed ? (
-                <CheckCircleIcon className="h-5 w-5 text-green-500" />
-              ) : (
-                <XCircleIcon className="h-5 w-5 text-red-500" />
-              )}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Total Cost</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {formatCurrency(totalCost)}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">
-              Balance Remaining
-            </dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {formatCurrency(remainingBalance)}
-            </dd>
-          </div>
-          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Date Created</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              {format(new Date(dateCreated), 'PP p')}
-            </dd>
-          </div>
-        </dl>
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Email</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {_homeowner.email}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Phone</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <a href={`tel:${_homeowner.phone}`}>
+                  {formatPhoneNumber(_homeowner.phone)}
+                </a>
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Contractors</dt>
+              <dd className="mt-1 flex text-sm text-gray-500 sm:col-span-2 sm:mt-0 space-y-1">
+                <span className="flex-grow">
+                  {contractors?.map((contractor: Contractor) => (
+                    <div
+                      key={contractor._id}
+                      className="flex flex-col badge badge-outline"
+                    >
+                      {`${contractor.firstName} ${contractor.lastName}`}
+                    </div>
+                  ))}
+                </span>
+                <span className="ml-4 flex-shrink-0">
+                  <button
+                    type="button"
+                    className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={() => setOpen(true)}
+                  >
+                    Update
+                  </button>
+                </span>
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Activated</dt>
+              <dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <span className="flex-grow">
+                  {activated ? (
+                    <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                  ) : (
+                    <XCircleIcon className="h-5 w-5 text-red-500" />
+                  )}
+                </span>
+                <span className="ml-4 flex-shrink-0">
+                  <button
+                    type="button"
+                    className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={() => setOpen(true)}
+                  >
+                    Update
+                  </button>
+                </span>
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Completed</dt>
+              <dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <span className="flex-grow">
+                  {completed ? (
+                    <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                  ) : (
+                    <XCircleIcon className="h-5 w-5 text-red-500" />
+                  )}
+                </span>
+                <span className="ml-4 flex-shrink-0">
+                  <button
+                    type="button"
+                    className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={() => setOpen(true)}
+                  >
+                    Update
+                  </button>
+                </span>
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Total Cost</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {formatCurrency(totalCost)}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">
+                Balance Remaining
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {formatCurrency(remainingBalance)}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">
+                Date Created
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {format(new Date(dateCreated), 'PP p')}
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
-    </div>
+
+      <EstimateEdit
+        open={open}
+        setOpen={setOpen}
+        assignedContractors={contractors}
+        estimate={estimate}
+      />
+    </>
   )
 }
 
