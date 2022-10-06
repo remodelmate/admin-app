@@ -26,22 +26,23 @@ export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
     estimate?.completed
   )
 
-  const [updatedContractors, setUpdatedContractors] =
-    useState<Contractor[]>(assignedContractors)
+  const [updatedContractors, setUpdatedContractors] = useState<Contractor[]>(
+    assignedContractors || []
+  )
 
   const closeEdit = () => {
     setOpen(false)
     setActivatedEnabled(estimate?.activated)
     setCompletedEnabled(estimate?.completed)
-    setUpdatedContractors([...assignedContractors])
+    setUpdatedContractors(assignedContractors || [])
   }
 
   // Compare assigned contractors in MongoDB vs updated contractors by admin
   // TODO: Maybe extract this out
   const contractorsDiff = () => {
-    for (let i = 0; i < updatedContractors.length; i++) {
+    for (let i = 0; i < updatedContractors?.length; i++) {
       if (
-        !assignedContractors.some(
+        !assignedContractors?.some(
           assignedContractor =>
             assignedContractor._id === updatedContractors[i]._id
         )
@@ -50,9 +51,9 @@ export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
       }
     }
 
-    for (let i = 0; i < assignedContractors.length; i++) {
+    for (let i = 0; i < assignedContractors?.length; i++) {
       if (
-        !updatedContractors.some(
+        !updatedContractors?.some(
           updatedContractor =>
             updatedContractor._id === assignedContractors[i]._id
         )

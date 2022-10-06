@@ -18,7 +18,7 @@ export const ContractorsDropdown: FunctionComponent<
 
   const filteredContractors = contractorsList?.contractors?.filter(
     (contractor: Contractor) =>
-      !updatedContractors.some(
+      !updatedContractors?.some(
         updatedContractor => updatedContractor._id === contractor._id
       )
   )
