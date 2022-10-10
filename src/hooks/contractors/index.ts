@@ -43,3 +43,22 @@ export const getContractor = async (id: string) => {
 export const useContractor = (id: string, config?: Record<string, unknown>) => {
   return useQuery(['homeowner', id], () => getContractor(id), { ...config })
 }
+
+export const getContractorsDropdown = async () => {
+  const token = await getUserToken()
+
+  return await fetch('/api/contractors/getContractorsDropdown', {
+    method: 'GET',
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  })
+    .then(data => data.json())
+    .catch(error => console.error(error))
+}
+
+export const useContractorsDropdown = (config?: Record<string, unknown>) => {
+  return useQuery('contractors-dropdown', () => getContractorsDropdown(), {
+    ...config,
+  })
+}

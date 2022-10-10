@@ -1,5 +1,5 @@
 import { getUserToken } from '@utils/magic'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 
 export const getEstimates = async (page = 0) => {
   const token = await getUserToken()
@@ -42,4 +42,50 @@ export const getEstimate = async (id: string) => {
 
 export const useEstimate = (id: string, config?: Record<string, unknown>) => {
   return useQuery(['estimate', id], () => getEstimate(id), { ...config })
+}
+
+export const updateEstimate = async ({
+  id,
+  updatedContractors,
+  activatedEnabled,
+  completedEnabled,
+}: updateEstimateRequest) => {
+  const token = await getUserToken()
+
+  const body = JSON.stringify({
+    id,
+    updatedContractors,
+    activatedEnabled,
+    completedEnabled,
+  })
+
+  const response = await fetch('/api/estimates/updateEstimate', {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: body,
+  })
+
+  const apiRes = await response.json()
+
+  if (!response.ok) {
+    console.error('Error: ', apiRes.error.message, apiRes.message)
+    throw apiRes.error
+  }
+}
+
+export const useUpdateEstimate = (config?: Record<string, unknown>) => {
+  return useMutation(
+    async (request: updateEstimateRequest) => await updateEstimate(request),
+    { ...config }
+  )
+}
+
+interface updateEstimateRequest {
+  id: string
+  updatedContractors: Contractor[]
+  activatedEnabled: boolean
+  completedEnabled: boolean
 }
