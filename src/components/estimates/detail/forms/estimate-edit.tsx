@@ -11,6 +11,9 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ContractorsDropdown } from './contractors-dropdown'
 import { Toggle } from './toggle'
 import { ContractorBadge } from './contractor-badge'
+import { useUpdateEstimate } from '@hooks/estimates'
+import { useQueryClient } from 'react-query'
+import { Loader } from '@components/shared'
 
 export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
   open,
@@ -70,8 +73,29 @@ export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
     activatedEnabled === estimate.activated &&
     completedEnabled === estimate.completed
 
-  const onSubmit = (event: any) => {
+  const cache = useQueryClient()
+
+  const { mutateAsync, isLoading } = useUpdateEstimate({
+    onSuccess: (_data: any) => {
+      cache.invalidateQueries(['estimate', estimate._id])
+    },
+    onError: (error: any) => {
+      console.error('error on mutateAsync', error)
+    },
+  })
+
+  const onSubmit = async (event: any) => {
     event.preventDefault()
+
+    setOpen(false)
+
+    const id = estimate._id
+    await mutateAsync({
+      id,
+      updatedContractors,
+      activatedEnabled,
+      completedEnabled,
+    })
   }
 
   return (
@@ -112,6 +136,7 @@ export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
                               <XMarkIcon
                                 className="h-6 w-6"
                                 aria-hidden="true"
+                                onClick={closeEdit}
                               />
                             </button>
                           </div>
@@ -176,7 +201,7 @@ export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
                       <button
                         type="submit"
                         className={clsx(
-                          isDisabled ? 'opacity-50' : '',
+                          isDisabled ? 'opacity-50 disabled' : '',
                           'ml-4 inline-flex justify-center rounded-md border border-transparent bg-blueGray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blueGray-700 focus:outline-none focus:ring-2 focus:ring-blueGray-500 focus:ring-offset-2'
                         )}
                         disabled={isDisabled}
@@ -184,23 +209,17 @@ export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
                         Save
                       </button>
                     </div>
-                    <pre>
-                      {JSON.stringify(
-                        {
-                          updatedContractors,
-                          activatedEnabled,
-                          completedEnabled,
-                        },
-                        null,
-                        2
-                      )}
-                    </pre>
                   </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
           </div>
         </div>
+        {isLoading && (
+          <div className="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50">
+            <Loader />
+          </div>
+        )}
       </Dialog>
     </Transition.Root>
   )
