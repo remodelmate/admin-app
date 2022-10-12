@@ -36,7 +36,7 @@ const handler = async (
         contractor => contractor._id
       )
 
-      await estimate.update({ $set: { contractors: contractorIds } })
+      await estimate.update({ $set: { contractors: [...contractorIds] } })
 
       if (estimate.activated !== req.body.activatedEnabled) {
         estimate.activated = req.body.activatedEnabled

@@ -4,8 +4,8 @@ import { Combobox } from '@headlessui/react'
 import clsx from 'clsx'
 import { useContractorsDropdown } from '@hooks/contractors'
 
-export const ContractorsDropdown: FunctionComponent<
-  ContractorsDropdownProps
+export const EstimateContractorsDropdown: FunctionComponent<
+  EstimateContractorsDropdownProps
 > = ({ updatedContractors, setUpdatedContractors }) => {
   const [selectedPerson, setSelectedPerson] = useState<Contractor>()
 
@@ -71,7 +71,7 @@ export const ContractorsDropdown: FunctionComponent<
   )
 }
 
-interface ContractorsDropdownProps {
+interface EstimateContractorsDropdownProps {
   updatedContractors: Contractor[]
   setUpdatedContractors: Dispatch<SetStateAction<Contractor[]>>
 }

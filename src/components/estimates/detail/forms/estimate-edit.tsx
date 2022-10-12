@@ -8,7 +8,7 @@ import {
 import clsx from 'clsx'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ContractorsDropdown } from './contractors-dropdown'
+import { EstimateContractorsDropdown } from './estimate-contractors-dropdown'
 import { Toggle } from './toggle'
 import { ContractorBadge } from './contractor-badge'
 import { useUpdateEstimate } from '@hooks/estimates'
@@ -141,12 +141,6 @@ export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
                             </button>
                           </div>
                         </div>
-                        {/* <div className="mt-1">
-                          <p className="text-sm text-blueGray-300">
-                            Get started by filling in the information below to
-                            create your new project.
-                          </p>
-                        </div> */}
                       </div>
                       <div className="flex flex-1 flex-col justify-between">
                         <div className="divide-y divide-gray-200 px-4 sm:px-6">
@@ -170,7 +164,7 @@ export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
                                 </div>
                               </div>
                             </div>
-                            <ContractorsDropdown
+                            <EstimateContractorsDropdown
                               updatedContractors={updatedContractors}
                               setUpdatedContractors={setUpdatedContractors}
                             />
