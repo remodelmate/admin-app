@@ -6,11 +6,11 @@ import {
   useState,
 } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-// import { useQueryClient } from 'react-query'
+import { useQueryClient } from 'react-query'
 import clsx from 'clsx'
-// import { Loader } from '@components/shared'
+import { Loader } from '@components/shared'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-// import { useUpdateEstimate } from '@hooks/estimates'
+import { useUpdateMilestone } from '@hooks/milestones'
 
 export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
   open,
@@ -34,29 +34,23 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
     milestone.contractorPercentage === updatedMilestone.contractorPercentage &&
     milestone.status === updatedMilestone.status
 
-  // const cache = useQueryClient()
+  const cache = useQueryClient()
 
-  // const { mutateAsync, isLoading } = useUpdateEstimate({
-  //   onSuccess: (_data: any) => {
-  //     cache.invalidateQueries(['estimate', estimate._id])
-  //   },
-  //   onError: (error: any) => {
-  //     console.error('error on mutateAsync', error)
-  //   },
-  // })
+  const { mutateAsync, isLoading } = useUpdateMilestone({
+    onSuccess: (_data: any) => {
+      cache.invalidateQueries(['estimate', milestone._project])
+    },
+    onError: (error: any) => {
+      console.error('error on mutateAsync', error)
+    },
+  })
 
   const onSubmit = async (event: any) => {
     event.preventDefault()
 
     setOpen(false)
 
-    // const id = estimate._id
-    // await mutateAsync({
-    //   id,
-    //   updatedContractors,
-    //   // activatedEnabled,
-    //   // completedEnabled,
-    // })
+    await mutateAsync({ updatedMilestone })
   }
 
   return (
@@ -350,11 +344,11 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
             </div>
           </div>
         </div>
-        {/* {isLoading && (
+        {isLoading && (
           <div className="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50">
             <Loader />
           </div>
-        )} */}
+        )}
       </Dialog>
     </Transition.Root>
   )
