@@ -19,6 +19,9 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
   assignedContractors,
 }) => {
   const [updatedMilestone, setUpdatedMilestone] = useState<Milestone>(milestone)
+  const [milestoneContractor, setMilestoneContractor] = useState<Contractor>(
+    milestone._contractor
+  )
 
   const closeEdit = () => {
     setOpen(false)
@@ -27,7 +30,7 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
 
   // Disables save button
   const isDisabled =
-    milestone?._contractor?._id === updatedMilestone?._contractor?._id &&
+    milestone?._contractor?._id === milestoneContractor?._id &&
     milestone.name === updatedMilestone.name &&
     milestone.description === updatedMilestone.description &&
     milestone.price === updatedMilestone.price &&
@@ -105,18 +108,19 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                                 Assigned Contractor
                               </h3>
                               <div className="mt-2">
-                                {updatedMilestone._contractor && (
+                                {milestoneContractor && (
                                   <span className="inline-flex max-w-fit items-center rounded-full bg-blueGray-100 py-0.5 pl-2 pr-0.5 text-xs font-medium text-blueGray-700">
-                                    {`${updatedMilestone?._contractor?.firstName} ${updatedMilestone?._contractor?.lastName}`}
+                                    {`${milestoneContractor?.firstName} ${milestoneContractor?.lastName}`}
                                     <button
                                       type="button"
                                       className="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-blueGray-400 hover:bg-blueGray-200 hover:text-blueGray-500 focus:bg-blueGray-500 focus:text-white focus:outline-none"
-                                      onClick={() =>
+                                      onClick={() => {
                                         setUpdatedMilestone({
                                           ...updatedMilestone,
                                           _contractor: null,
                                         })
-                                      }
+                                        setMilestoneContractor(null)
+                                      }}
                                     >
                                       <span className="sr-only">
                                         Remove small option
@@ -153,8 +157,11 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                                 onChange={e => {
                                   setUpdatedMilestone({
                                     ...updatedMilestone,
-                                    _contractor: JSON.parse(e.target.value),
+                                    _contractor: JSON.parse(e.target.value)._id,
                                   })
+                                  setMilestoneContractor(
+                                    JSON.parse(e.target.value)
+                                  )
                                 }}
                               >
                                 <option value="" disabled defaultChecked>

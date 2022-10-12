@@ -33,12 +33,18 @@ const handler = async (
       const milestone = await Milestone.findById(updatedMilestone._id)
       const estimate = await Estimate.findById(updatedMilestone._project)
 
-      if (
-        milestone._contractor.toString() !== updatedMilestone._contractor._id
-      ) {
-        await milestone.updateOne({
-          _contractor: updatedMilestone._contractor._id,
-        })
+      if (updatedMilestone._contractor !== undefined) {
+        milestone.updateOne(
+          { _contractor: updatedMilestone._contractor },
+          { new: true },
+          (error: any, response: any) => {
+            if (error) {
+              console.log(error)
+              return error
+            }
+            return response
+          }
+        )
       }
 
       if (milestone.name !== updatedMilestone.name) {
