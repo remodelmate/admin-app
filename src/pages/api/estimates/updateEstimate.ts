@@ -30,6 +30,12 @@ const handler = async (
         return res.status(400).send({ message: 'Request invalid' })
       }
 
+      // Check if estimate has contractors field array, if not create it
+      await Estimate.updateOne(
+        { _id: req.body.id, contractors: { $exists: false } },
+        { $set: { contractors: [] } }
+      )
+
       const estimate = await Estimate.findById(req.body.id)
 
       const contractorIds = req.body.updatedContractors.map(
