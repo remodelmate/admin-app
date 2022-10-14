@@ -3,6 +3,7 @@ import {
   Fragment,
   FunctionComponent,
   SetStateAction,
+  SyntheticEvent,
   useState,
 } from 'react'
 import clsx from 'clsx'
@@ -84,7 +85,7 @@ export const EstimateEdit: FunctionComponent<EstimateEditProps> = ({
     },
   })
 
-  const onSubmit = async (event: any) => {
+  const onSubmit = async (event: SyntheticEvent) => {
     event.preventDefault()
 
     setOpen(false)

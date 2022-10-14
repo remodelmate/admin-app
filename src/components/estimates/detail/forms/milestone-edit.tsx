@@ -3,6 +3,7 @@ import {
   Fragment,
   FunctionComponent,
   SetStateAction,
+  SyntheticEvent,
   useState,
 } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
@@ -10,7 +11,8 @@ import { useQueryClient } from 'react-query'
 import clsx from 'clsx'
 import { Loader } from '@components/shared'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { useUpdateMilestone } from '@hooks/milestones'
+import { useDeleteMilestone, useUpdateMilestone } from '@hooks/milestones'
+import { TrashIcon } from '@heroicons/react/20/solid'
 
 export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
   open,
@@ -39,21 +41,41 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
 
   const cache = useQueryClient()
 
-  const { mutateAsync, isLoading } = useUpdateMilestone({
-    onSuccess: (_data: any) => {
-      cache.invalidateQueries(['estimate', milestone._project])
-    },
-    onError: (error: any) => {
-      console.error('error on mutateAsync', error)
-    },
-  })
+  const { mutateAsync: updateMutateAsync, isLoading: updateIsLoading } =
+    useUpdateMilestone({
+      onSuccess: (_data: any) => {
+        cache.invalidateQueries(['estimate', milestone._project])
+      },
+      onError: (error: any) => {
+        console.error('error on mutateAsync', error)
+      },
+    })
 
-  const onSubmit = async (event: any) => {
+  const { mutateAsync: deleteMutateAsync, isLoading: deleteIsLoading } =
+    useDeleteMilestone({
+      onSuccess: (_data: any) => {
+        cache.invalidateQueries(['estimate', milestone._project])
+      },
+      onError: (error: any) => {
+        console.error('error on mutateAsync', error)
+      },
+    })
+
+  const onSubmit = async (event: SyntheticEvent) => {
     event.preventDefault()
 
     setOpen(false)
 
-    await mutateAsync({ updatedMilestone })
+    await updateMutateAsync({ updatedMilestone })
+  }
+
+  const onDelete = async (event: SyntheticEvent) => {
+    event.preventDefault()
+
+    setOpen(false)
+
+    const id = milestone._id
+    await deleteMutateAsync({ id })
   }
 
   return (
@@ -211,6 +233,7 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                                 id="name"
                                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 defaultValue={updatedMilestone.name}
+                                maxLength={80}
                                 onChange={e => {
                                   setUpdatedMilestone({
                                     ...updatedMilestone,
@@ -323,6 +346,19 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                               <option value="approved">Approved</option>
                             </select>
                           </div>
+                          <div className="pt-14 float-right">
+                            <button
+                              type="button"
+                              className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                              onClick={onDelete}
+                            >
+                              <TrashIcon
+                                className="-ml-1 mr-3 h-5 w-5"
+                                aria-hidden="true"
+                              />
+                              DELETE
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -351,7 +387,7 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
             </div>
           </div>
         </div>
-        {isLoading && (
+        {(updateIsLoading || deleteIsLoading) && (
           <div className="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50">
             <Loader />
           </div>
