@@ -9,7 +9,7 @@ import {
 import { Dialog, Transition } from '@headlessui/react'
 import { useQueryClient } from 'react-query'
 import clsx from 'clsx'
-import { Loader } from '@components/shared'
+import { ActionModal, Loader } from '@components/shared'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useDeleteMilestone, useUpdateMilestone } from '@hooks/milestones'
 import { TrashIcon } from '@heroicons/react/20/solid'
@@ -24,6 +24,7 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
   const [milestoneContractor, setMilestoneContractor] = useState<Contractor>(
     milestone._contractor
   )
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   const closeEdit = () => {
     setOpen(false)
@@ -76,6 +77,13 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
 
     const id = milestone._id
     await deleteMutateAsync({ id })
+  }
+
+  const closeModal = (event: SyntheticEvent) => {
+    event.preventDefault()
+
+    closeEdit()
+    setModalOpen(false)
   }
 
   return (
@@ -350,7 +358,7 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                             <button
                               type="button"
                               className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                              onClick={onDelete}
+                              onClick={() => setModalOpen(true)}
                             >
                               <TrashIcon
                                 className="-ml-1 mr-3 h-5 w-5"
@@ -391,6 +399,14 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
           <div className="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50">
             <Loader />
           </div>
+        )}
+        {modalOpen && (
+          <ActionModal
+            message={'Confirm to delete Milestone'}
+            modalOpen={modalOpen}
+            closeModal={closeModal}
+            action={onDelete}
+          />
         )}
       </Dialog>
     </Transition.Root>
