@@ -308,6 +308,7 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                             <div className="mt-1">
                               <input
                                 type="number"
+                                step="0.01"
                                 name="contractorPercentage"
                                 id="contractorPercentage"
                                 min={0}
