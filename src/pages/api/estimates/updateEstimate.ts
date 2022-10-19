@@ -2,6 +2,7 @@ import { dbConnect } from '@utils/mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Magic } from '@magic-sdk/admin'
 import { Estimate } from 'models/estimate'
+import { Contractor } from 'models/contractor'
 
 const magic = new Magic(process.env.MAGIC_SECRET_KEY)
 
@@ -37,13 +38,60 @@ const handler = async (
       )
 
       const estimate = await Estimate.findById(req.body.id)
+      const { contractors } = estimate
 
-      const contractorIds = req.body.updatedContractors.map(
+      const updatedContractorIds = req.body.updatedContractors.map(
         contractor => contractor._id
       )
 
+      const removedContractors = await contractors.filter(
+        (contractor: string) =>
+          !updatedContractorIds.includes(contractor.toString())
+      )
+
+      const addedContractors = await updatedContractorIds.filter(
+        (contractorId: string) => !contractors.includes(contractorId)
+      )
+
+      // Remove project from contractors
+      if (removedContractors) {
+        removedContractors.forEach((contractor: string) => {
+          Contractor.findByIdAndUpdate(
+            contractor.toString(),
+            { $pull: { projects: req.body.id } },
+            { new: true },
+            (error, contractor) => {
+              if (error) {
+                console.log(error)
+                return error
+              }
+              return contractor
+            }
+          )
+        })
+      }
+
+      // Add project to contractors
+      if (addedContractors) {
+        addedContractors.forEach((contractor: string) => {
+          Contractor.findByIdAndUpdate(
+            contractor,
+            { $push: { projects: req.body.id } },
+            { new: true },
+            (error, contractor) => {
+              if (error) {
+                console.log(error)
+                return error
+              }
+              return contractor
+            }
+          )
+        })
+      }
+
+      // Add updated contractors to estimate
       await estimate.updateOne(
-        { $set: { contractors: [...contractorIds] } },
+        { $set: { contractors: [...updatedContractorIds] } },
         { new: true },
         (error: any, response: any) => {
           if (error) {
