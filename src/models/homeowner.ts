@@ -131,6 +131,12 @@ const homeownerSchema = new Schema<Homeowner>({
   },
 })
 
+homeownerSchema.index({
+  firstName: 'text',
+  lastName: 'text',
+  email: 'text',
+})
+
 export const Homeowner = mongoose.model('Homeowner', homeownerSchema)
 
 export default Homeowner
