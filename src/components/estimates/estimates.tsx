@@ -1,4 +1,4 @@
-import { Dispatch, FunctionComponent, SetStateAction } from 'react'
+import { ChangeEvent, Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { PaginateButtons } from '@components/shared'
 import Link from 'next/link'
 import { interpolateParams, ROUTE_MAP } from '@utils/routes'
@@ -79,7 +79,7 @@ const EstimatesTable: FunctionComponent<EstimatesTableProps> = ({
                     >
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="text-sm text-gray-900">
-                          {`${estimate._homeowner?.firstName} ${estimate._homeowner?.lastName}`}
+                          {`${estimate?._homeowner?.firstName} ${estimate?._homeowner?.lastName}`}
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
@@ -172,12 +172,25 @@ export const Estimates: FunctionComponent<EstimatesProps> = ({
   page,
   setPage,
   estimatesIsPreviousData,
+  setFilter,
 }) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault()
+    setPage(1)
+    setFilter(event.target.value)
+  }
+
   return (
     <main className="flex-1 mb-10 sm:mb-12">
       <div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="flex justify-between max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <h1 className="text-3xl font-semibold text-gray-900">Estimates</h1>
+          <input
+            type="text"
+            placeholder="Search"
+            className="input input-bordered w-full max-w-xs"
+            onChange={onChange}
+          />
         </div>
         <div className="max-w-7xl mx-auto p-4 sm:px-6 md:px-8">
           <EstimatesTable
@@ -197,6 +210,7 @@ interface EstimatesProps {
   page: number
   setPage: Dispatch<SetStateAction<number>>
   estimatesIsPreviousData: boolean
+  setFilter: Dispatch<SetStateAction<string>>
 }
 
 interface EstimatesTableProps {

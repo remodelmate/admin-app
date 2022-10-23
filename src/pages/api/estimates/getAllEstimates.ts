@@ -15,6 +15,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const page = Number(req.query.page) || 1
   const pageSize = 20
 
+  const { filter } = req.body
+
   try {
     magic.token.validate(didToken)
     const metadata = await magic.users.getMetadataByToken(didToken)
@@ -25,9 +27,29 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(500).send({ message: 'No email address from metadata' })
     }
 
-    const estimatesCountPromise = Estimate.estimatedDocumentCount({})
+    const estimatesCountPromise = Estimate.count(
+      filter
+        ? {
+            $or: [
+              { 'address.street': { $regex: filter, $options: 'i' } },
+              { 'address.state': { $regex: filter, $options: 'i' } },
+              { 'address.city': { $regex: filter, $options: 'i' } },
+            ],
+          }
+        : {}
+    )
 
-    const estimatesPromise = Estimate.find({})
+    const estimatesPromise = Estimate.find(
+      filter
+        ? {
+            $or: [
+              { 'address.street': { $regex: filter, $options: 'i' } },
+              { 'address.state': { $regex: filter, $options: 'i' } },
+              { 'address.city': { $regex: filter, $options: 'i' } },
+            ],
+          }
+        : {}
+    )
       .populate({
         path: '_homeowner',
         select: 'firstName lastName',

@@ -12,6 +12,7 @@ const EstimatesPage = () => {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
+  const [filter, setFilter] = useState('')
 
   const {
     data: isLoggedIn,
@@ -24,15 +25,15 @@ const EstimatesPage = () => {
     error: estimatesError,
     isLoading: estimatesIsLoading,
     isPreviousData: estimatesIsPreviousData,
-  } = useEstimates(page, { keepPreviousData: true, staleTime: 5000 })
+  } = useEstimates(page, filter, { keepPreviousData: true, staleTime: 5000 })
 
   useEffect(() => {
     if (estimatesData?.hasMore) {
-      queryClient.prefetchQuery(['estimates', page + 1], () =>
-        getEstimates(page + 1)
+      queryClient.prefetchQuery(['estimates', page + 1, filter], () =>
+        getEstimates(page + 1, filter)
       )
     }
-  }, [estimatesData, page, queryClient])
+  }, [estimatesData, page, queryClient, filter])
 
   if (isLoggedInLoading || estimatesIsLoading) {
     return <Loader />
@@ -53,6 +54,7 @@ const EstimatesPage = () => {
       page={page}
       setPage={setPage}
       estimatesIsPreviousData={estimatesIsPreviousData}
+      setFilter={setFilter}
     />
   )
 }
