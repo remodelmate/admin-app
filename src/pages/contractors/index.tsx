@@ -12,6 +12,7 @@ const ContractorsPage = () => {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
+  const [filter, setFilter] = useState('')
 
   const {
     data: isLoggedIn,
@@ -24,15 +25,15 @@ const ContractorsPage = () => {
     error: contractorsError,
     isLoading: contractorsIsLoading,
     isPreviousData: contractorsIsPreviousData,
-  } = useContractors(page, { keepPreviousData: true, staleTime: 5000 })
+  } = useContractors(page, filter, { keepPreviousData: true, staleTime: 5000 })
 
   useEffect(() => {
     if (contractorsData?.hasMore) {
-      queryClient.prefetchQuery(['contractors', page + 1], () =>
-        getContractors(page + 1)
+      queryClient.prefetchQuery(['contractors', page + 1, filter], () =>
+        getContractors(page + 1, filter)
       )
     }
-  }, [contractorsData, page, queryClient])
+  }, [contractorsData, page, queryClient, filter])
 
   if (isLoggedInLoading || contractorsIsLoading) {
     return <Loader />
@@ -53,6 +54,7 @@ const ContractorsPage = () => {
       page={page}
       setPage={setPage}
       contractorsIsPreviousData={contractorsIsPreviousData}
+      setFilter={setFilter}
     />
   )
 }
