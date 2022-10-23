@@ -14,7 +14,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const pageSize = 20
 
   const { filter } = req.body
-  // const filter = 'iamatestcontractor17'
 
   try {
     magic.token.validate(didToken)
