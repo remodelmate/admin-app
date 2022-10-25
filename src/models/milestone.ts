@@ -9,7 +9,7 @@ interface Milestone extends Document {
 
 const milestoneSchema = new Schema<Milestone>({
   _project: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Estimate',
     required: true,
   },
