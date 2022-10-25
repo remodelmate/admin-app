@@ -40,7 +40,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({ estimate }) => {
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Homeowner</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {`${_homeowner.firstName} ${_homeowner.lastName}`}
+                {`${_homeowner?.firstName} ${_homeowner?.lastName}`}
               </dd>
             </div>
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
@@ -55,14 +55,14 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({ estimate }) => {
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Email</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {_homeowner.email}
+                {_homeowner?.email}
               </dd>
             </div>
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Phone</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                <a href={`tel:${_homeowner.phone}`}>
-                  {formatPhoneNumber(_homeowner.phone)}
+                <a href={`tel:${_homeowner?.phone}`}>
+                  {formatPhoneNumber(_homeowner?.phone)}
                 </a>
               </dd>
             </div>

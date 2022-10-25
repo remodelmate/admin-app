@@ -13,6 +13,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const page = Number(req.query.page) || 1
   const pageSize = 20
 
+  const { filter } = req.body
+
   try {
     magic.token.validate(didToken)
     const metadata = await magic.users.getMetadataByToken(didToken)
@@ -23,9 +25,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(500).send({ message: 'No email address from metadata' })
     }
 
-    const contractorsCountPromise = Contractor.estimatedDocumentCount({})
+    const contractorsCountPromise = Contractor.count(
+      filter
+        ? {
+            $text: { $search: filter },
+          }
+        : {}
+    )
 
-    const contractorsPromise = Contractor.find({})
+    const contractorsPromise = Contractor.find(
+      filter
+        ? {
+            $text: { $search: filter },
+          }
+        : {}
+    )
       .sort({ dateCreated: -1 })
       .skip(pageSize * (page - 1))
       .limit(pageSize)

@@ -1,13 +1,17 @@
 import { getUserToken } from '@utils/magic'
 import { useQuery } from 'react-query'
 
-export const getContractors = async (page = 0) => {
+export const getContractors = async (page = 0, filter = '') => {
   const token = await getUserToken()
 
+  const body = JSON.stringify({ filter })
+
   return await fetch('/api/contractors/getAllContractors?page=' + page, {
-    method: 'GET',
+    method: 'POST',
+    body: body,
     headers: {
       authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
   })
     .then(data => data.json())
@@ -16,11 +20,16 @@ export const getContractors = async (page = 0) => {
 
 export const useContractors = (
   page: number,
+  filter: string,
   config?: Record<string, unknown>
 ) => {
-  return useQuery(['contractors', page], () => getContractors(page), {
-    ...config,
-  })
+  return useQuery(
+    ['contractors', page, filter],
+    () => getContractors(page, filter),
+    {
+      ...config,
+    }
+  )
 }
 
 export const getContractor = async (id: string) => {

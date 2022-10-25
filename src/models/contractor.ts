@@ -231,6 +231,13 @@ const contractorSchema = new Schema<Contractor>({
   },
 })
 
+contractorSchema.index({
+  firstName: 'text',
+  lastName: 'text',
+  email: 'text',
+  companyName: 'text',
+})
+
 export const Contractor = mongoose.model<Contractor>(
   'Contractor',
   contractorSchema

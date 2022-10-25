@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Document, Schema } from 'mongoose'
 
 // TODO: MOVE THIS OUT INTO A UTILITIES FOLDER OR SOMETHING
 const statesArray = [

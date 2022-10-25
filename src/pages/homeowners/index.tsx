@@ -12,6 +12,7 @@ const HomeownersPage = () => {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
+  const [filter, setFilter] = useState('')
 
   const {
     data: isLoggedIn,
@@ -24,15 +25,15 @@ const HomeownersPage = () => {
     error: homeownersError,
     isLoading: homeownersIsLoading,
     isPreviousData: homeownersIsPreviousData,
-  } = useHomeowners(page, { keepPreviousData: true, staleTime: 5000 })
+  } = useHomeowners(page, filter, { keepPreviousData: true, staleTime: 5000 })
 
   useEffect(() => {
     if (homeownersData?.hasMore) {
-      queryClient.prefetchQuery(['homeowners', page + 1], () =>
-        getHomeowners(page + 1)
+      queryClient.prefetchQuery(['homeowners', page + 1, filter], () =>
+        getHomeowners(page + 1, filter)
       )
     }
-  }, [homeownersData, page, queryClient])
+  }, [homeownersData, page, queryClient, filter])
 
   if (isLoggedInLoading || homeownersIsLoading) {
     return <Loader />
@@ -53,6 +54,7 @@ const HomeownersPage = () => {
       page={page}
       setPage={setPage}
       homeownersIsPreviousData={homeownersIsPreviousData}
+      setFilter={setFilter}
     />
   )
 }

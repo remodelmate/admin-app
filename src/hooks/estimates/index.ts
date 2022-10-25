@@ -1,13 +1,17 @@
 import { getUserToken } from '@utils/magic'
 import { useMutation, useQuery } from 'react-query'
 
-export const getEstimates = async (page = 0) => {
+export const getEstimates = async (page = 0, filter = '') => {
   const token = await getUserToken()
 
+  const body = JSON.stringify({ filter })
+
   return await fetch('/api/estimates/getAllEstimates?page=' + page, {
-    method: 'GET',
+    method: 'POST',
+    body: body,
     headers: {
       authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
   })
     .then(data => data.json())
@@ -16,11 +20,16 @@ export const getEstimates = async (page = 0) => {
 
 export const useEstimates = (
   page: number,
+  filter: string,
   config?: Record<string, unknown>
 ) => {
-  return useQuery(['estimates', page], () => getEstimates(page), {
-    ...config,
-  })
+  return useQuery(
+    ['estimates', page, filter],
+    () => getEstimates(page, filter),
+    {
+      ...config,
+    }
+  )
 }
 
 export const getEstimate = async (id: string) => {
