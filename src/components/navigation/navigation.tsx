@@ -1,14 +1,16 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FunctionComponent, ReactNode, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { ROUTE_MAP } from '@utils/routes'
 import {
+  ArrowRightOnRectangleIcon,
   CalculatorIcon,
   HomeModernIcon,
   WrenchScrewdriverIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import clsx from 'clsx'
+import { magic } from '@utils/magic'
 
 const navLinks = [
   {
@@ -37,6 +39,17 @@ export const Navigation: FunctionComponent<NavigationProps> = ({
   const router = useRouter()
 
   const activePath = router.pathname.split('/')[1]
+
+  const [logoutLoading, setLogoutLoading] = useState<boolean>(false)
+
+  const logout = async () => {
+    setLogoutLoading(true)
+
+    await magic.user.logout()
+
+    setLogoutLoading(false)
+    router.replace(ROUTE_MAP.app.entry)
+  }
 
   return (
     <>
@@ -81,6 +94,23 @@ export const Navigation: FunctionComponent<NavigationProps> = ({
                 </Link>
               ))}
             </nav>
+          </div>
+          <div className="flex-shrink-0 flex border-t border-gray-200 p-2">
+            <div className="flex-shrink-0 w-full group block">
+              <div className="flex items-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 px-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+                <button className="flex" onClick={() => logout()}>
+                  <ArrowRightOnRectangleIcon
+                    className="h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                    aria-hidden="true"
+                  />
+                  <div className="ml-3">
+                    <p className="text-sm font-medium text-gray-600 group-hover:text-gray-900 hover:no-underline cursor-pointer">
+                      {logoutLoading ? 'Loading...' : 'Logout'}
+                    </p>
+                  </div>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
