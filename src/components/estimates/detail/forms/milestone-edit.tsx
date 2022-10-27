@@ -211,7 +211,7 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                           </div>
                           <div>
                             <label
-                              htmlFor="category"
+                              htmlFor="_category"
                               className="block text-sm font-medium text-gray-900"
                             >
                               Category
@@ -219,8 +219,8 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                             <div className="mt-1">
                               <input
                                 type="text"
-                                name="category"
-                                id="category"
+                                name="_category"
+                                id="_category"
                                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 value={milestone._category}
                                 disabled
@@ -285,7 +285,7 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                               <input
                                 type="number"
                                 name="price"
-                                id="contractorPercentage"
+                                id="price"
                                 min={0}
                                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 defaultValue={updatedMilestone.price}
@@ -330,7 +330,7 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                           <div>
                             <label
                               htmlFor="status"
-                              className="block text-sm font-medium text-gray-700"
+                              className="block text-sm font-medium text-gray-900"
                             >
                               Status
                             </label>

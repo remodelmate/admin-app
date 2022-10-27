@@ -9,7 +9,7 @@ import {
 import { formatCurrency } from '@utils/currency'
 import Image from 'next/image'
 import { EnlargeImage } from '@components/shared'
-import { EstimateEdit, MilestoneEdit } from './forms'
+import { EstimateEdit, MilestoneCreate, MilestoneEdit } from './forms'
 
 const DetailsSection: FunctionComponent<DetailsSectionProps> = ({
   title,
@@ -90,7 +90,7 @@ const Details: FunctionComponent<DetailsProps> = ({ estimate }) => {
                   <button
                     type="button"
                     className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpen(!open)}
                   >
                     Update
                   </button>
@@ -111,7 +111,7 @@ const Details: FunctionComponent<DetailsProps> = ({ estimate }) => {
                   <button
                     type="button"
                     className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpen(!open)}
                   >
                     Update
                   </button>
@@ -132,7 +132,7 @@ const Details: FunctionComponent<DetailsProps> = ({ estimate }) => {
                   <button
                     type="button"
                     className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpen(!open)}
                   >
                     Update
                   </button>
@@ -177,14 +177,17 @@ const Details: FunctionComponent<DetailsProps> = ({ estimate }) => {
 
 const MilestonesSection: FunctionComponent<MilestonesSectionProps> = ({
   title,
+  estimateId,
   children,
 }) => {
+  const [open, setOpen] = useState<boolean>(false)
+
   return (
     <div>
       <div className="mb-4 flex">
         <h1 className="text-3xl font-semibold text-gray-900">{title}</h1>
         {title === 'Milestones' ? (
-          <button className="">
+          <button onClick={() => setOpen(!open)}>
             <PlusCircleIcon className="m-2 my-auto" height="28" width="28" />
           </button>
         ) : (
@@ -192,6 +195,7 @@ const MilestonesSection: FunctionComponent<MilestonesSectionProps> = ({
         )}
       </div>
       <div className="mb-10">{children}</div>
+      <MilestoneCreate open={open} setOpen={setOpen} estimateId={estimateId} />
     </div>
   )
 }
@@ -276,7 +280,7 @@ const MilestonesList: FunctionComponent<MilestonesListProps> = ({
               type="button"
               className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               onClick={() => {
-                setOpen(true)
+                setOpen(!open)
               }}
             >
               Edit
@@ -382,7 +386,7 @@ export const EstimateDetail: FunctionComponent<EstimateDetailProps> = ({
       <DetailsSection title="Estimate Detail">
         <Details estimate={estimate} />
       </DetailsSection>
-      <MilestonesSection title="Milestones">
+      <MilestonesSection title="Milestones" estimateId={estimate._id}>
         <MilestonesList estimate={estimate} />
       </MilestonesSection>
     </main>
@@ -400,6 +404,7 @@ interface DetailsProps {
 
 interface MilestonesSectionProps {
   title: string
+  estimateId: Estimate['_id']
   children: ReactNode
 }
 
