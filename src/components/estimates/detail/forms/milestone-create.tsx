@@ -9,6 +9,7 @@ import {
   FunctionComponent,
   SetStateAction,
   SyntheticEvent,
+  useState,
 } from 'react'
 
 export const MilestoneCreate: FunctionComponent<MilestoneCreateProps> = ({
@@ -16,22 +17,29 @@ export const MilestoneCreate: FunctionComponent<MilestoneCreateProps> = ({
   setOpen,
   estimateId,
 }) => {
+  const [dataReturnLoading, setDataReturnLoading] = useState<boolean>(false)
+
   const cache = useQueryClient()
 
-  const { mutateAsync: createMutateAsync, isLoading: createIsLoading } =
-    useCreateMilestone({
-      onSuccess: (_data: any) => {
-        cache.invalidateQueries(['estimate', estimateId])
-      },
-      onError: (error: any) => {
-        console.error('error on mutateAsync', error)
-      },
-    })
+  const { mutateAsync: createMutateAsync } = useCreateMilestone({
+    onSuccess: (_data: any) => {
+      cache.invalidateQueries(['estimate', estimateId])
+      setTimeout(() => {
+        setOpen(false)
+        setDataReturnLoading(false)
+      }, 1000)
+    },
+    onError: (error: any) => {
+      console.error('error on mutateAsync', error)
+      setOpen(false)
+      setDataReturnLoading(false)
+    },
+  })
 
   const onSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    setOpen(false)
+    setDataReturnLoading(true)
 
     const form = event.currentTarget
     const formElement = form.elements as typeof form.elements & {
@@ -243,11 +251,11 @@ export const MilestoneCreate: FunctionComponent<MilestoneCreateProps> = ({
             </div>
           </div>
         </div>
-        {createIsLoading && (
+        {dataReturnLoading ? (
           <div className="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50">
             <Loader />
           </div>
-        )}
+        ) : null}
       </Dialog>
     </Transition.Root>
   )
