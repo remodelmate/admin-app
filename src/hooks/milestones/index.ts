@@ -1,6 +1,51 @@
 import { getUserToken } from '@utils/magic'
 import { useMutation } from 'react-query'
 
+export const createMilestone = async ({
+  newMilestone,
+  estimateId,
+}: createMilestoneRequest) => {
+  const token = await getUserToken()
+
+  const body = JSON.stringify({ newMilestone, estimateId })
+
+  const response = await fetch('/api/milestones/createMilestone', {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: body,
+  })
+
+  const apiRes = await response.json()
+
+  if (!response.ok) {
+    console.error('Error: ', apiRes.error.message, apiRes.message)
+    throw apiRes.error
+  }
+}
+
+export const useCreateMilestone = (config?: Record<string, unknown>) => {
+  return useMutation(
+    async (request: createMilestoneRequest) => await createMilestone(request),
+    { ...config }
+  )
+}
+
+interface createMilestoneRequest {
+  newMilestone: {
+    _project: Milestone['_project']
+    _category: Milestone['_category']
+    name: Milestone['name']
+    description: Milestone['description']
+    price: Milestone['price']
+    contractorPercentage: Milestone['contractorPercentage']
+    status: Milestone['status']
+  }
+  estimateId: Estimate['_id']
+}
+
 export const updateMilestone = async ({
   updatedMilestone,
 }: updateMilestoneRequest) => {

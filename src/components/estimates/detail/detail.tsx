@@ -1,13 +1,20 @@
 import { FunctionComponent, ReactNode, useState } from 'react'
 import { format } from 'date-fns'
 import { formatPhoneNumber } from '@utils/phone'
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import {
+  CheckCircleIcon,
+  PlusCircleIcon,
+  XCircleIcon,
+} from '@heroicons/react/24/outline'
 import { formatCurrency } from '@utils/currency'
 import Image from 'next/image'
 import { EnlargeImage } from '@components/shared'
-import { EstimateEdit, MilestoneEdit } from './forms'
+import { EstimateEdit, MilestoneCreate, MilestoneEdit } from './forms'
 
-const Section: FunctionComponent<SectionProps> = ({ title, children }) => {
+const DetailsSection: FunctionComponent<DetailsSectionProps> = ({
+  title,
+  children,
+}) => {
   return (
     <div>
       <div className="mb-4">
@@ -18,7 +25,7 @@ const Section: FunctionComponent<SectionProps> = ({ title, children }) => {
   )
 }
 
-const DetailSection: FunctionComponent<DetailSectionProps> = ({ estimate }) => {
+const Details: FunctionComponent<DetailsProps> = ({ estimate }) => {
   const {
     _homeowner,
     address,
@@ -83,7 +90,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({ estimate }) => {
                   <button
                     type="button"
                     className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpen(!open)}
                   >
                     Update
                   </button>
@@ -104,7 +111,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({ estimate }) => {
                   <button
                     type="button"
                     className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpen(!open)}
                   >
                     Update
                   </button>
@@ -125,7 +132,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({ estimate }) => {
                   <button
                     type="button"
                     className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpen(!open)}
                   >
                     Update
                   </button>
@@ -169,6 +176,31 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({ estimate }) => {
 }
 
 const MilestonesSection: FunctionComponent<MilestonesSectionProps> = ({
+  title,
+  estimateId,
+  children,
+}) => {
+  const [open, setOpen] = useState<boolean>(false)
+
+  return (
+    <div>
+      <div className="mb-4 flex">
+        <h1 className="text-3xl font-semibold text-gray-900">{title}</h1>
+        {title === 'Milestones' ? (
+          <button onClick={() => setOpen(!open)}>
+            <PlusCircleIcon className="m-2 my-auto" height="28" width="28" />
+          </button>
+        ) : (
+          ''
+        )}
+      </div>
+      <div className="mb-10">{children}</div>
+      <MilestoneCreate open={open} setOpen={setOpen} estimateId={estimateId} />
+    </div>
+  )
+}
+
+const MilestonesList: FunctionComponent<MilestonesListProps> = ({
   estimate,
 }) => {
   const { milestones, contractors } = estimate
@@ -248,7 +280,7 @@ const MilestonesSection: FunctionComponent<MilestonesSectionProps> = ({
               type="button"
               className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               onClick={() => {
-                setOpen(true)
+                setOpen(!open)
               }}
             >
               Edit
@@ -351,26 +383,32 @@ export const EstimateDetail: FunctionComponent<EstimateDetailProps> = ({
 }) => {
   return (
     <main className="flex-1 max-w-full mx-auto px-4 sm:px-6 md:px-8 mb-16 sm:mb-20">
-      <Section title="Estimate Detail">
-        <DetailSection estimate={estimate} />
-      </Section>
-      <Section title="Milestones">
-        <MilestonesSection estimate={estimate} />
-      </Section>
+      <DetailsSection title="Estimate Detail">
+        <Details estimate={estimate} />
+      </DetailsSection>
+      <MilestonesSection title="Milestones" estimateId={estimate._id}>
+        <MilestonesList estimate={estimate} />
+      </MilestonesSection>
     </main>
   )
 }
 
-interface SectionProps {
+interface DetailsSectionProps {
   title: string
   children: ReactNode
 }
 
-interface DetailSectionProps {
+interface DetailsProps {
   estimate: Estimate
 }
 
 interface MilestonesSectionProps {
+  title: string
+  estimateId: Estimate['_id']
+  children: ReactNode
+}
+
+interface MilestonesListProps {
   estimate: Estimate
 }
 
