@@ -43,8 +43,6 @@ const handler = async (
       const milestone = new Milestone(newMilestone)
       milestone && (await milestone.save())
 
-      console.log(milestone)
-
       const estimate = await Estimate.findById(estimateId)
       await estimate.milestones.push(milestone._id)
 
