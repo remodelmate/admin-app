@@ -35,6 +35,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
 
+        <meta name="robots" content="noindex,nofollow" />
+
         <title>{`remodelmate - Admin App`}</title>
       </Head>
 
