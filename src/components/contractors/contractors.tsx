@@ -2,7 +2,6 @@ import { interpolateParams, ROUTE_MAP } from '@utils/routes'
 import Link from 'next/link'
 import { ChangeEvent, Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { PaginateButtons } from '@components/shared'
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 
 const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
   contractorsData,
@@ -25,13 +24,7 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                     scope="col"
                     className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Category
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Contractor
+                    Name
                   </th>
                   <th
                     scope="col"
@@ -53,27 +46,9 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                   </th>
                   <th
                     scope="col"
-                    className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    <span>License</span>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    <span>Insurance</span>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    <span>Activated</span>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    <span>Background</span>
+                    Category
                   </th>
                   <th scope="col" className="relative px-6 py-3">
                     <span className="sr-only">View more</span>
@@ -88,14 +63,6 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                       key={contractor._id}
                       className="hover:bg-gray-100 transition-all"
                     >
-                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <div className="text-sm text-gray-900">
-                          {contractor.category
-                            ? contractor.category.charAt(0).toUpperCase() +
-                              contractor.category.slice(1)
-                            : 'N/A'}
-                        </div>
-                      </td>
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="text-sm text-gray-900">
                           {`${contractor.firstName} ${contractor.lastName}`}
@@ -119,50 +86,14 @@ const ContractorsTable: FunctionComponent<ContractorsTableProps> = ({
                           {contractor.companyName}
                         </div>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="text-sm text-gray-900">
-                          {contractor.category === 'design' ? (
-                            '-'
-                          ) : contractor.contractorsLicense.licenseVerified ? (
-                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <XCircleIcon className="h-5 w-5 text-red-500" />
-                          )}
+                          {contractor.category
+                            ? contractor.category.charAt(0).toUpperCase() +
+                              contractor.category.slice(1)
+                            : 'N/A'}
                         </div>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          {contractor.category === 'design' &&
-                          !contractor.insurancePolicy.policyNumber ? (
-                            '-'
-                          ) : contractor.insurancePolicy.insuranceVerified ? (
-                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <XCircleIcon className="h-5 w-5 text-red-500" />
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          {contractor.activated ? (
-                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <XCircleIcon className="h-5 w-5 text-red-500" />
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          <span className=" align-middle">
-                            {contractor.backgroundCheckStatus === 'passed' ? (
-                              <CheckCircleIcon className="h-5 w-5 text-green-500" />
-                            ) : (
-                              <XCircleIcon className="h-5 w-5 text-red-500" />
-                            )}
-                          </span>
-                        </div>
-                      </td>
-
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="text-indigo-600 ">
                           <Link
@@ -224,7 +155,7 @@ export const Contractors: FunctionComponent<ContractorsProps> = ({
             onChange={onChange}
           />
         </div>
-        <div className="max-w-full mx-auto p-4 sm:px-6 md:px-8">
+        <div className="max-w-7xl mx-auto p-4 sm:px-6 md:px-8">
           <ContractorsTable
             contractorsData={contractorsData}
             page={page}
