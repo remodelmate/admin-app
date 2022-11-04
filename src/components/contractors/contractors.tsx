@@ -146,7 +146,7 @@ export const Contractors: FunctionComponent<ContractorsProps> = ({
   return (
     <main className="flex-1 mb-10 sm:mb-12">
       <div>
-        <div className="flex justify-between max-w-full mx-auto px-4 sm:px-6 md:px-8">
+        <div className="flex justify-between max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <h1 className="text-3xl font-semibold text-gray-900">Contractors</h1>
           <input
             type="text"
