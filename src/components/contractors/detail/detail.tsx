@@ -58,7 +58,9 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Category</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {category?.charAt(0).toUpperCase() + category?.slice(1)}
+                {category
+                  ? category.charAt(0).toUpperCase() + category.slice(1)
+                  : 'N/A'}
               </dd>
             </div>
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
@@ -131,144 +133,187 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
                 <a href={`tel:${phone}`}>{formatPhoneNumber(phone)}</a>
               </dd>
             </div>
-            {contractorsLicense.licenseNumber && (
+            {contractorsLicense.length > 0 && (
               <>
                 <div className="py-5 sm:px-6">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
                     Contractor's License
                   </h3>
                 </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Image</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    <img
-                      className="cursor-pointer object-cover"
-                      src={contractorsLicense.licenseImage}
-                      alt="licenseImage"
-                      width="80"
-                      height="80"
-                      onClick={() =>
-                        handleClick(contractorsLicense.licenseImage)
-                      }
-                      aria-hidden="true"
-                    />
-                  </dd>
-                </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    Image URL
-                  </dt>
-                  <dd className="mt-1 text-sm text-blue-600 sm:col-span-2 sm:mt-0">
-                    {
-                      <a
-                        href={contractorsLicense.licenseImage}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View
-                      </a>
-                    }
-                  </dd>
-                </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Number</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    {contractorsLicense.licenseNumber}
-                  </dd>
-                </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">State</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    {contractorsLicense.state}
-                  </dd>
-                </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    Expiration Date
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    {dateConversion(contractorsLicense.expirationDate)}
-                  </dd>
-                </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    Verified
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    {contractorsLicense.licenseVerified ? (
-                      <CheckCircleIcon className="h-5 w-5 text-green-500" />
-                    ) : (
-                      <XCircleIcon className="h-5 w-5 text-red-500" />
-                    )}
-                  </dd>
-                </div>
+                {contractorsLicense.map(license => {
+                  return (
+                    <div key={license.licenseNumber}>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Image
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          <img
+                            className="cursor-pointer object-cover"
+                            src={license.licenseImage}
+                            alt="licenseImage"
+                            width="80"
+                            height="80"
+                            onClick={() => handleClick(license.licenseImage)}
+                            aria-hidden="true"
+                          />
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Image URL
+                        </dt>
+                        <dd className="mt-1 text-sm text-blue-600 sm:col-span-2 sm:mt-0">
+                          {
+                            <a
+                              href={license.licenseImage}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              View
+                            </a>
+                          }
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Number
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.licenseNumber}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          State
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.state}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Expiration Date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {dateConversion(license.expirationDate)}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Verified
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.licenseVerified ? (
+                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XCircleIcon className="h-5 w-5 text-red-500" />
+                          )}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Status
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.status
+                            ? license.status.charAt(0).toUpperCase() +
+                              license.status.slice(1)
+                            : 'N/A'}
+                        </dd>
+                      </div>
+                    </div>
+                  )
+                })}
               </>
             )}
-            {insurancePolicy.policyNumber && (
+            {insurancePolicy.length > 0 && (
               <>
                 <div className="py-5 sm:px-6">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
                     Insurance Policy
                   </h3>
                 </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Image</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    <img
-                      className="cursor-pointer object-cover"
-                      src={insurancePolicy.insuranceImage}
-                      alt="licenseImage"
-                      width="80"
-                      height="80"
-                      onClick={() =>
-                        handleClick(insurancePolicy.insuranceImage)
-                      }
-                      aria-hidden="true"
-                    />
-                  </dd>
-                </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    Image URL
-                  </dt>
-                  <dd className="mt-1 text-sm text-blue-600 sm:col-span-2 sm:mt-0">
-                    {
-                      <a
-                        href={insurancePolicy.insuranceImage}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View
-                      </a>
-                    }
-                  </dd>
-                </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Number</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    {insurancePolicy.policyNumber}
-                  </dd>
-                </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    Expiration Date
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    {dateConversion(insurancePolicy.expirationDate)}
-                  </dd>
-                </div>
-                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    Verified
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    {insurancePolicy.insuranceVerified ? (
-                      <CheckCircleIcon className="h-5 w-5 text-green-500" />
-                    ) : (
-                      <XCircleIcon className="h-5 w-5 text-red-500" />
-                    )}
-                  </dd>
-                </div>
+
+                {insurancePolicy.map(insurance => {
+                  return (
+                    <div key={insurance.policyNumber}>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Image
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          <img
+                            className="cursor-pointer object-cover"
+                            src={insurance.insuranceImage}
+                            alt="licenseImage"
+                            width="80"
+                            height="80"
+                            onClick={() =>
+                              handleClick(insurance.insuranceImage)
+                            }
+                            aria-hidden="true"
+                          />
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Image URL
+                        </dt>
+                        <dd className="mt-1 text-sm text-blue-600 sm:col-span-2 sm:mt-0">
+                          {
+                            <a
+                              href={insurance.insuranceImage}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              View
+                            </a>
+                          }
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Number
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {insurance.policyNumber}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Expiration Date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {dateConversion(insurance.expirationDate)}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Verified
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {insurance.insuranceVerified ? (
+                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XCircleIcon className="h-5 w-5 text-red-500" />
+                          )}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Status
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {insurance.status
+                            ? insurance.status.charAt(0).toUpperCase() +
+                              insurance.status.slice(1)
+                            : 'N/A'}
+                        </dd>
+                      </div>
+                    </div>
+                  )
+                })}
               </>
             )}
             <div className="py-5 sm:px-6">

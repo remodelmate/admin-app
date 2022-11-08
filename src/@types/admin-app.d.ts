@@ -85,19 +85,25 @@ interface Contractor {
     state: string
     street: string
   }
-  contractorsLicense: {
-    licenseVerified: true
-    state: string
-    licenseImage: string
-    licenseNumber: string
-    expirationDate: Date
-  }
-  insurancePolicy: {
-    insuranceVerified: true
-    policyNumber: string
-    expirationDate: Date
-    insuranceImage: string
-  }
+  contractorsLicense: [
+    {
+      licenseVerified: boolean
+      state: string
+      licenseImage: string
+      licenseNumber: string
+      expirationDate: Date
+      status: string
+    }
+  ]
+  insurancePolicy: [
+    {
+      insuranceVerified: true
+      policyNumber: string
+      expirationDate: Date
+      insuranceImage: string
+      status: string
+    }
+  ]
   backgroundCheckStatus: string
   activated: true
   projects: []

@@ -57,6 +57,7 @@ const statesArray = [
   'WY',
 ]
 const categoriesArray = ['general', 'design']
+const statusArray = ['pending', 'approved', 'declined']
 
 // @ts-expect-error hack to fix this in local dev
 delete mongoose.connection.models['Contractor'] // prevents `OverwriteModelError`
@@ -150,48 +151,64 @@ const contractorSchema = new Schema<Contractor>({
     },
   },
 
-  contractorsLicense: {
-    licenseImage: {
-      type: String,
-      required: true,
+  contractorsLicense: [
+    {
+      licenseImage: {
+        type: String,
+        required: true,
+      },
+      licenseNumber: {
+        type: String,
+        required: true,
+      },
+      state: {
+        type: String,
+        uppercase: true,
+        enum: statesArray,
+      },
+      expirationDate: {
+        type: Date,
+      },
+      licenseVerified: {
+        type: Boolean,
+        required: true,
+        default: false,
+      },
+      status: {
+        type: String,
+        required: true,
+        enum: statusArray,
+        default: 'pending',
+      },
     },
-    licenseNumber: {
-      type: String,
-      required: true,
-    },
-    state: {
-      type: String,
-      uppercase: true,
-      enum: statesArray,
-    },
-    expirationDate: {
-      type: Date,
-    },
-    licenseVerified: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-  },
+  ],
 
-  insurancePolicy: {
-    insuranceImage: {
-      type: String,
-      required: true,
+  insurancePolicy: [
+    {
+      insuranceImage: {
+        type: String,
+        required: true,
+      },
+      policyNumber: {
+        type: String,
+        required: true,
+      },
+      expirationDate: {
+        type: Date,
+      },
+      insuranceVerified: {
+        type: Boolean,
+        required: true,
+        default: false,
+      },
+      status: {
+        type: String,
+        required: true,
+        enum: statusArray,
+        default: 'pending',
+      },
     },
-    policyNumber: {
-      type: String,
-      required: true,
-    },
-    expirationDate: {
-      type: Date,
-    },
-    insuranceVerified: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-  },
+  ],
 
   backgroundCheckStatus: {
     type: String,
