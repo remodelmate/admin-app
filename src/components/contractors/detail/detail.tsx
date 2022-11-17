@@ -36,6 +36,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
     backgroundCheckStatus,
     activated,
     stripeContractorId,
+    localLicense,
   } = contractor
   const [imageClick, setImageClick] = useState(false)
   const [enlargeSrc, setEnlargeSrc] = useState('')
@@ -197,6 +198,132 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                           {dateConversion(license.expirationDate)}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Verified
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.licenseVerified ? (
+                            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <XCircleIcon className="h-5 w-5 text-red-500" />
+                          )}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Status
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.status
+                            ? license.status.charAt(0).toUpperCase() +
+                              license.status.slice(1)
+                            : 'N/A'}
+                        </dd>
+                      </div>
+                    </div>
+                  )
+                })}
+              </>
+            )}
+            {localLicense.length > 0 && (
+              <>
+                <div className="py-5 sm:px-6">
+                  <h3 className="text-lg font-medium leading-6 text-gray-900">
+                    Local License
+                  </h3>
+                </div>
+                {localLicense.map(license => {
+                  return (
+                    <div key={license._id}>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Image
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          <img
+                            className="cursor-pointer object-cover"
+                            src={license.licenseImage}
+                            alt="licenseImage"
+                            width="80"
+                            height="80"
+                            onClick={() => handleClick(license.licenseImage)}
+                            aria-hidden="true"
+                          />
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Image URL
+                        </dt>
+                        <dd className="mt-1 text-sm text-blue-600 sm:col-span-2 sm:mt-0">
+                          {
+                            <a
+                              href={license.licenseImage}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              View
+                            </a>
+                          }
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Company
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.companyName}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          City
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.licenseCity}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          License Code
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.licenseCode}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          License Number
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.licenseNumber}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Commercial Activity License
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {license.commercialActivityLicense}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Issued Date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {dateConversion(license.dateIssued)}
+                        </dd>
+                      </div>
+                      <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Expiration Date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                          {dateConversion(license.dateExpire)}
                         </dd>
                       </div>
                       <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">

@@ -104,6 +104,22 @@ interface Contractor {
       status: string
     }
   ]
+  localLicense: [
+    {
+      _id: string
+      licenseImage: string
+      companyName: string
+      licenseCity: string
+      licenseCode: string
+      licenseNumber: string
+      commercialActivityLicense: string
+      dateIssued: Date
+      dateExpire: Date
+      dateCreated: Date
+      licenseVerified: boolean
+      status: string
+    }
+  ]
   backgroundCheckStatus: string
   activated: true
   projects: []

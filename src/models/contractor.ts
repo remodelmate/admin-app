@@ -183,6 +183,29 @@ const contractorSchema = new Schema<Contractor>({
     },
   ],
 
+  localLicense: [
+    {
+      licenseImage: { type: String },
+      companyName: { type: String },
+      licenseCity: { type: String },
+      licenseCode: { type: String },
+      licenseNumber: { type: String },
+      commercialActivityLicense: { type: String },
+      dateIssued: { type: Date },
+      dateExpire: { type: Date },
+      dateCreated: { type: Date, default: Date.now() },
+      licenseVerified: {
+        type: Boolean,
+        default: false,
+      },
+      status: {
+        type: String,
+        enum: statusArray,
+        default: 'pending',
+      },
+    },
+  ],
+
   insurancePolicy: [
     {
       insuranceImage: {
