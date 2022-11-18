@@ -134,7 +134,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
                 <a href={`tel:${phone}`}>{formatPhoneNumber(phone)}</a>
               </dd>
             </div>
-            {contractorsLicense.length > 0 && (
+            {contractorsLicense?.length > 0 && (
               <>
                 <div className="py-5 sm:px-6">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -228,7 +228,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
                 })}
               </>
             )}
-            {localLicense.length > 0 && (
+            {localLicense?.length > 0 && (
               <>
                 <div className="py-5 sm:px-6">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -354,7 +354,7 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
                 })}
               </>
             )}
-            {insurancePolicy.length > 0 && (
+            {insurancePolicy?.length > 0 && (
               <>
                 <div className="py-5 sm:px-6">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
