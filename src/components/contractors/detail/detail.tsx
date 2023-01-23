@@ -74,10 +74,12 @@ const DetailSection: FunctionComponent<DetailSectionProps> = ({
               <dt className="text-sm font-medium text-gray-500">Address</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <div className="text-sm text-gray-900">
-                  {companyAddress.street}
+                  {companyAddress?.street ?? ''}
                 </div>
                 <div className="text-sm text-gray-500">
-                  {`${companyAddress.city}, ${companyAddress.state} ${companyAddress.zip}`}
+                  {`${companyAddress?.city ?? ''}${companyAddress ? ',' : ''} ${
+                    companyAddress?.state ?? ''
+                  } ${companyAddress?.zip ?? ''}`}
                 </div>
               </dd>
             </div>
