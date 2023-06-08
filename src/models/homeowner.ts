@@ -74,21 +74,25 @@ const homeownerSchema = new Schema<Homeowner>({
   address: {
     street: {
       type: String,
-      required: true,
+      // required: true,
     },
     city: {
       type: String,
-      required: true,
+      // required: true,
     },
     state: {
       type: String,
       uppercase: true,
-      required: true,
+      // required: true,
       enum: statesArray,
     },
     zip: {
       type: Number,
-      required: true,
+      // required: true,
+    },
+    additional: {
+      type: String,
+      trim: true,
     },
   },
 
@@ -135,6 +139,7 @@ homeownerSchema.index({
   firstName: 'text',
   lastName: 'text',
   email: 'text',
+  phone: 'text',
 })
 
 export const Homeowner = mongoose.model('Homeowner', homeownerSchema)
