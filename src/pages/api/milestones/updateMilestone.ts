@@ -68,10 +68,25 @@ const handler = async (
         estimate.remainingBalance += updatedMilestone.price
       }
 
-      if (
-        milestone.contractorPercentage !== updatedMilestone.contractorPercentage
-      ) {
-        milestone.contractorPercentage = updatedMilestone.contractorPercentage
+      // Check if new contractorPayoutAmount from Collections exists
+      if (milestone.contractorPayoutAmount) {
+        if (
+          milestone.contractorPayoutAmount !==
+          updatedMilestone.contractorPayoutAmount
+        ) {
+          milestone.contractorPayoutAmount =
+            updatedMilestone.contractorPayoutAmount
+        }
+      }
+
+      // Check if old contractorPercentage from older milestones exists
+      if (milestone.contractorPercentage) {
+        if (
+          milestone.contractorPercentage !==
+          updatedMilestone.contractorPercentage
+        ) {
+          milestone.contractorPercentage = updatedMilestone.contractorPercentage
+        }
       }
 
       if (milestone.status !== updatedMilestone.status) {

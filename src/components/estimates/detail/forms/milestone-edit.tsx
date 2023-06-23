@@ -37,7 +37,11 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
     milestone.name === updatedMilestone.name &&
     milestone.description === updatedMilestone.description &&
     milestone.price === updatedMilestone.price &&
-    milestone.contractorPercentage === updatedMilestone.contractorPercentage &&
+    (milestone.contractorPayoutAmount
+      ? milestone.contractorPayoutAmount ===
+        updatedMilestone.contractorPayoutAmount
+      : milestone.contractorPercentage ===
+        updatedMilestone.contractorPercentage) &&
     milestone.status === updatedMilestone.status
 
   const cache = useQueryClient()
@@ -298,35 +302,67 @@ export const MilestoneEdit: FunctionComponent<MilestoneEditProps> = ({
                               />
                             </div>
                           </div>
-                          <div>
-                            <label
-                              htmlFor="contractorPercentage"
-                              className="block text-sm font-medium text-gray-900"
-                            >
-                              Contractor's Percentage
-                            </label>
-                            <div className="mt-1">
-                              <input
-                                type="number"
-                                step="0.01"
-                                name="contractorPercentage"
-                                id="contractorPercentage"
-                                min={0}
-                                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                defaultValue={
-                                  updatedMilestone.contractorPercentage
-                                }
-                                onChange={e => {
-                                  setUpdatedMilestone({
-                                    ...updatedMilestone,
-                                    contractorPercentage: Number(
-                                      e.target.value
-                                    ),
-                                  })
-                                }}
-                              />
+                          {milestone.contractorPayoutAmount >= 0 ? (
+                            <div>
+                              <label
+                                htmlFor="contractorPayoutAmount"
+                                className="block text-sm font-medium text-gray-900"
+                              >
+                                Contractor's Payout Amount
+                              </label>
+                              <div className="mt-1">
+                                <input
+                                  type="number"
+                                  step="1"
+                                  name="contractorPayoutAmount"
+                                  id="contractorPayoutAmount"
+                                  min={0}
+                                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                  defaultValue={
+                                    updatedMilestone.contractorPayoutAmount
+                                  }
+                                  onChange={e => {
+                                    setUpdatedMilestone({
+                                      ...updatedMilestone,
+                                      contractorPayoutAmount: Number(
+                                        e.target.value
+                                      ),
+                                    })
+                                  }}
+                                />
+                              </div>
                             </div>
-                          </div>
+                          ) : (
+                            <div>
+                              <label
+                                htmlFor="contractorPercentage"
+                                className="block text-sm font-medium text-gray-900"
+                              >
+                                Contractor's Percentage
+                              </label>
+                              <div className="mt-1">
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  name="contractorPercentage"
+                                  id="contractorPercentage"
+                                  min={0}
+                                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                  defaultValue={
+                                    updatedMilestone.contractorPercentage
+                                  }
+                                  onChange={e => {
+                                    setUpdatedMilestone({
+                                      ...updatedMilestone,
+                                      contractorPercentage: Number(
+                                        e.target.value
+                                      ),
+                                    })
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          )}
                           <div>
                             <label
                               htmlFor="status"
