@@ -2,6 +2,8 @@ interface Estimate {
   _id: string
   _homeowner: Homeowner
   _contractor: Contractor
+  collectionName: string
+  layout: string
   address: Address
   milestones: Milestone[]
   receipts: Receipt[]
@@ -22,6 +24,7 @@ interface Milestone {
   description: string
   price: number
   contractorPercentage: number
+  contractorPayoutAmount: number
   status: string
   receipt: Receipt // ref
   images: string[]
@@ -53,8 +56,17 @@ interface Address {
   city: string
   state: string // TODO: change to enum
   zip: number
+  additional: string
   place_id: string
   url: string
+}
+
+interface HomeownerAddress {
+  street: string
+  city: string
+  state: string // TODO: change to enum
+  zip: number
+  additional: string
 }
 
 interface GenericAddress {
@@ -75,6 +87,7 @@ interface Contractor {
     city: string
     state: string
     street: string
+    additional: string
   }
   description: string
   profileImage: string
@@ -84,6 +97,7 @@ interface Contractor {
     city: string
     state: string
     street: string
+    additional: string
   }
   contractorsLicense: [
     {

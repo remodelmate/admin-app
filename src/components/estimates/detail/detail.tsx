@@ -35,6 +35,9 @@ const Details: FunctionComponent<DetailsProps> = ({ estimate }) => {
     remainingBalance,
     contractors,
     dateCreated,
+    collectionName,
+    layout,
+    _id,
   } = estimate
 
   const [open, setOpen] = useState<boolean>(false)
@@ -45,6 +48,12 @@ const Details: FunctionComponent<DetailsProps> = ({ estimate }) => {
         <div className="border-gray-200 px-4 py-5 sm:p-0">
           <dl className="sm:divide-y sm:divide-gray-200">
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Project</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {collectionName ? `${collectionName} - ${layout}` : _id}
+              </dd>
+            </div>
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Homeowner</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 {`${_homeowner?.firstName} ${_homeowner?.lastName}`}
@@ -54,6 +63,11 @@ const Details: FunctionComponent<DetailsProps> = ({ estimate }) => {
               <dt className="text-sm font-medium text-gray-500">Address</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <div className="text-sm text-gray-900">{address.street}</div>
+                {address.additional ? (
+                  <div className="text-sm text-gray-900">
+                    {address.additional}
+                  </div>
+                ) : null}
                 <div className="text-sm text-gray-500">
                   {`${address.city}, ${address.state} ${address.zip}`}
                 </div>

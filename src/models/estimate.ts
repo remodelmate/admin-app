@@ -73,6 +73,14 @@ const estimateSchema = new Schema<Estimate>({
     ref: 'Contractor',
   },
 
+  collectionName: {
+    type: String,
+  },
+
+  layout: {
+    type: String,
+  },
+
   address: {
     street: {
       type: String,
@@ -99,6 +107,10 @@ const estimateSchema = new Schema<Estimate>({
     url: {
       type: String,
       required: true,
+    },
+    additional: {
+      type: String,
+      trim: true,
     },
   },
 
