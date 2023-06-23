@@ -47,7 +47,7 @@ export const MilestoneCreate: FunctionComponent<MilestoneCreateProps> = ({
       name: { value: string }
       description: { value: string }
       price: { value: number }
-      contractorPercentage: { value: number }
+      contractorPayoutAmount: { value: number }
       status: { value: string }
     }
 
@@ -57,7 +57,7 @@ export const MilestoneCreate: FunctionComponent<MilestoneCreateProps> = ({
       name: formElement.name.value,
       description: formElement.description.value,
       price: Number(formElement.price.value),
-      contractorPercentage: Number(formElement.contractorPercentage.value),
+      contractorPayoutAmount: Number(formElement.contractorPayoutAmount.value),
       status: formElement.status.value,
     }
 
@@ -188,17 +188,17 @@ export const MilestoneCreate: FunctionComponent<MilestoneCreateProps> = ({
                           </div>
                           <div>
                             <label
-                              htmlFor="contractorPercentage"
+                              htmlFor="contractorPayoutAmount"
                               className="block text-sm font-medium text-gray-900"
                             >
-                              Contractor's Percentage
+                              Contractor's Payout Amount
                             </label>
                             <div className="mt-1">
                               <input
                                 type="number"
-                                step="0.01"
-                                name="contractorPercentage"
-                                id="contractorPercentage"
+                                step="1"
+                                name="contractorPayoutAmount"
+                                id="contractorPayoutAmount"
                                 min={0}
                                 required
                                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"

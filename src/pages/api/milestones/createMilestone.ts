@@ -14,7 +14,7 @@ type NextApiRequestWithMilestoneInfo = Omit<NextApiRequest, 'body'> & {
       name: Milestone['name']
       description: Milestone['description']
       price: Milestone['price']
-      contractorPercentage: Milestone['contractorPercentage']
+      contractorPayoutAmount: Milestone['contractorPayoutAmount']
       status: Milestone['status']
     }
     estimateId: Estimate['_id']
