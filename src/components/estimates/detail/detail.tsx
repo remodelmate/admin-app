@@ -54,6 +54,11 @@ const Details: FunctionComponent<DetailsProps> = ({ estimate }) => {
               <dt className="text-sm font-medium text-gray-500">Address</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <div className="text-sm text-gray-900">{address.street}</div>
+                {address.additional ? (
+                  <div className="text-sm text-gray-900">
+                    {address.additional}
+                  </div>
+                ) : null}
                 <div className="text-sm text-gray-500">
                   {`${address.city}, ${address.state} ${address.zip}`}
                 </div>

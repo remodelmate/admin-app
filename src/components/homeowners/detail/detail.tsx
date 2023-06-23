@@ -123,6 +123,11 @@ const EstimatesSection: FunctionComponent<EstimatesSectionProps> = ({
                         <div className="text-sm text-gray-900">
                           {estimate.address.street}
                         </div>
+                        {estimate.address.additional ? (
+                          <div className="text-sm text-gray-900">
+                            {estimate.address.additional}
+                          </div>
+                        ) : null}
                         <div className="text-sm text-gray-500">
                           {`${estimate.address.city}, ${estimate.address.state} ${estimate.address.zip}`}
                         </div>
